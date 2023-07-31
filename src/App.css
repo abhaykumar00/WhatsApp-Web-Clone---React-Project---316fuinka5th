@@ -1,0 +1,265 @@
+/* App.js css part */
+.container{
+  display: grid;
+  grid-template-rows: 1fr 7fr;
+  grid-template-columns: 1fr 2fr;
+  height: 90vh;
+  margin: 5px 5px 0 5px;
+}
+.part {
+  border: 1px solid #d9c4c4;
+  position: relative;
+}
+
+.part1 ,.part2{
+  background-color: #EDEDED;
+}
+
+/* Headerleft css */
+.HeaderLeft{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+/* headerRight css */
+.HeaderRight{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* common css of headerLeft and headerRight */
+
+.header3part{
+  margin-left: 20px;
+}
+.HeaderLeft2{
+  display: flex;
+  align-items: center;
+}
+
+.header2part{
+  margin-right: 10px;
+}
+.headerLeft2part{
+  margin-right: 15px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+/* ChatName css */
+.chatNames {
+  background-color: #EDEDED;
+  overflow: auto;
+}
+.chatNames input{
+  padding-left: 40px;
+   width: 80%;
+   border-radius: 20px;
+   height: 20px;
+   margin:10px 20px 10px 10px;
+   
+}
+
+.chatNames2{
+  height: 70vh;
+  overflow-Y: auto;
+  
+}
+.chatNames2 h1{
+ 
+  position: fixed;
+  margin: 0px;
+  padding-bottom: 0px;
+  background-color: white;
+  
+}
+.chatNames4{
+margin-top: 30px;
+}
+
+.chatNamesDiv{
+ display: flex;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid black;
+  justify-content: start;
+  flex-direction: row;
+  align-items: center;
+}
+.chatNamesDiv div{
+  margin-left: 2px;
+}
+.chatNamesDiv h6{
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.chatNamesDiv p{
+  margin: 0;
+}
+.chatNames3 {
+  overflow-x: auto; 
+  overflow-y: auto; 
+  white-space: nowrap; 
+}
+
+.chatNamesDiv img{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+/* ChatMessage css */
+.chatLive{
+  display: grid;
+  grid-template-rows: 10fr 1fr;
+ flex: 1;
+ background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+ background-repeat: repeat;
+ background-position: center;
+}
+.messageLive{
+  height: 71vh;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+.inputBottomdiv{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  background-color: lightgray;
+}
+.inputBottomdiv input{
+  flex: 1;
+  border-radius: 10px;
+  margin: 5px 10px ;
+}
+.chatSender{
+  margin-right: 25px;
+  display: flex;
+  flex-direction: column;
+ align-items: flex-end;
+
+ 
+}
+
+.chatSender h1{
+  top: 0;
+  font-size: 10px;
+  margin-bottom: 0;
+  margin-top: 0px;
+  margin-right: 80px;
+  
+}
+.chatSender div{
+  display: flex;
+  flex-direction: column;
+ 
+  padding: 5px;
+  border-radius: 6px;
+  margin-top: 0px;
+}
+.chatSenderPart div{
+  background-color: #C9F4AA;
+  margin-top: 0;
+}
+.p1{
+  margin-right: 8px;
+}
+.chatReciever {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 25px;
+  margin-top: 2px;
+}
+.chatReciever h1,p{
+  font-size: 10px;
+  margin: 0;
+}
+.chatReciever h1{
+  margin-left: 10px;
+}
+.chatReciever h1{
+  font-size: 10px;
+}
+.chatReciever .messageWrapper {
+  background-color: #ffffff; 
+  padding: 10px; 
+  border-radius: 6px;
+  padding: 7px;
+  margin-top: 0;
+}
+@media (min-width: 606px) and (max-width: 900px) {
+.part1,.part3{
+  width: 400px;
+}
+.chatNames input{
+  width: 70%;
+}
+}
+@media(max-width: 606px){
+  body{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  } 
+  /* .part2,.part4{
+    display: none;
+   position: absolute;
+   flex-shrink: 1;
+   z-index: 0;
+  } */
+
+
+.part1 {
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    z-index: 1;
+    flex-shrink: 1;
+}
+.chatNames input{
+  width: 70%;
+}
+.part3 {
+    width: 100%;
+    position: absolute;
+    margin-top: 80px;
+    z-index: 3; 
+    flex-shrink: 1;
+}
+.part2 {
+  position: absolute;
+  width: 100%;
+  height: 80px;
+  z-index: 9999;
+  flex-shrink: 1;
+}
+
+.part4 {
+  width: 100%;
+  position: absolute;
+  margin-top: 80px;
+  flex-shrink: 1;
+  
+}
+}
+@media(max-width:350px){
+  .chatLive{
+    
+   background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+   background-repeat:no-repeat;
+   background-position: center;
+   background-size: cover;
+  }
+}
+.cursor:hover{
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Change the shadow color and size as desired */
+  cursor: pointer;
+}
