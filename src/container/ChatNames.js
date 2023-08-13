@@ -119,7 +119,7 @@ const ChatNames = () => {
         <input />
       </div>
       <div className="chatNames2">
-        <h1 onClick={handleNewName}>Add New Group Name</h1>
+        <h1 onClick={handleNewName}>Add New Group +</h1>
         <div className="chatNames4">
           {nameId.map((name) => (
             <Link

@@ -69,12 +69,16 @@
   
 }
 .chatNames2 h1{
- 
+  cursor: pointer;
   position: fixed;
   margin: 0px;
   padding-bottom: 0px;
   background-color: white;
+  font-size: 30px;
   
+}
+.chatNames2 h1:hover{
+  box-shadow: #d9c4c4 ;
 }
 .chatNames4{
 margin-top: 30px;
@@ -115,6 +119,7 @@ margin-top: 30px;
   display: grid;
   grid-template-rows: 10fr 1fr;
  flex: 1;
+ flex-shrink: 1;
  background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
  background-repeat: repeat;
  background-position: center;
@@ -194,15 +199,15 @@ margin-top: 30px;
   padding: 7px;
   margin-top: 0;
 }
-@media (min-width: 606px) and (max-width: 900px) {
+@media (min-width: 566px) and (max-width: 900px) {
 .part1,.part3{
-  width: 400px;
+  width: 300px;
 }
 .chatNames input{
-  width: 70%;
+  
 }
 }
-@media(max-width: 606px){
+@media(max-width: 566px){
   body{
     display: flex;
     flex-direction: column;

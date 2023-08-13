@@ -175,7 +175,9 @@ const ChatMessage = () => {
             if (e.key === "Enter") handleClick();
           }}
         />
-        {!inputvalue && <MicTwoToneIcon sx={{ margin: "10px" }} />}
+        {!inputvalue && (
+          <MicTwoToneIcon sx={{ margin: "10px", flexShrink: 2 }} />
+        )}
         {inputvalue && (
           <SendIcon onClick={handleClick} sx={{ marginTop: "10px" }} />
         )}
