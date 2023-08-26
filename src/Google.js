@@ -5,8 +5,12 @@ import { signInWithPopup } from "@firebase/auth";
 import { auth, provider } from "./container/firebase";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { useContext } from "react";
+import { MyContext } from "./App";
 
 const Google = () => {
+  const { setSidebar, sidebar } = useContext(MyContext);
+  setSidebar(false);
   const navigate = useNavigate();
   const onLoginClick = () => {
     signInWithPopup(auth, provider)

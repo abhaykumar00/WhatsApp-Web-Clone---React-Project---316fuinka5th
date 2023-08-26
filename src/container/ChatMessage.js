@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from "react";
 import "../App.css";
+import emojiData from "./emojiData";
 import { doc, setDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import firestore from "../firebase";
@@ -7,11 +8,20 @@ import SentimentSatisfiedTwoToneIcon from "@mui/icons-material/SentimentSatisfie
 import MicTwoToneIcon from "@mui/icons-material/MicTwoTone";
 import SendIcon from "@mui/icons-material/Send";
 import { MyContext } from "../App";
-
+import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 const ChatMessage = () => {
+  const inputRef = useRef(null);
   const refScroller = useRef(null);
   const userNameref = useRef();
-  const { setLastSeen, setLastMessage, id, userName } = useContext(MyContext);
+  const {
+    setLastSeen,
+    setLastMessage,
+    id,
+    userName,
+    searchMessage,
+    setSidebar,
+    sidebar,
+  } = useContext(MyContext);
 
   //const newRef = useRef(null);
   // if (newRef.current === null) {
@@ -23,6 +33,8 @@ const ChatMessage = () => {
   const [name, setName] = useState("");
   const [imgSrc, setImgSrc] = useState();
   const [check, setCheck] = useState(false);
+  const [imogivalue, setImogivalue] = useState(false);
+
   let time = "";
 
   function handleChange(event) {
@@ -112,7 +124,7 @@ const ChatMessage = () => {
         if (doc.exists) {
           const data = doc.data();
           const value = data.message;
-          setfetchVAlue(() => [...value]); // Functional update
+          setfetchVAlue(() => [...value]);
           if (value.length > 0) setLastSeen(value[value.length - 1].time);
           else setLastSeen("");
           if (value && value.length > 0 && value[value.length - 1].message) {
@@ -134,6 +146,14 @@ const ChatMessage = () => {
 
   return (
     <div className="chatLive">
+      {sidebar && (
+        <div className="sidebar">
+          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+            <h6 className="sidebar1">Signout</h6>
+          </Link>
+        </div>
+      )}
+
       <div className="messageLive">
         {/* <div className="chatReciever">
           <h1>reciever</h1>
@@ -145,7 +165,21 @@ const ChatMessage = () => {
             <p className="p2">23:43:23 GMT</p>
           </div>
         </div> */}
-
+        {imogivalue && (
+          <div className="imoji">
+            {emojiData.map((emoji, index) => (
+              <p
+                onClick={() => {
+                  setInputValue(inputvalue + emoji.symbol);
+                  inputRef.current.focus();
+                }}
+                key={index}
+              >
+                {emoji.symbol}
+              </p>
+            ))}
+          </div>
+        )}
         {fetchValue.map((value) => (
           <div
             className={
@@ -167,16 +201,26 @@ const ChatMessage = () => {
         <div ref={refScroller} />
       </div>
       <div className="inputBottomdiv">
-        <SentimentSatisfiedTwoToneIcon sx={{ margin: "10px" }} />
+        <SentimentSatisfiedTwoToneIcon
+          onClick={() => setImogivalue(!imogivalue)}
+          sx={{ margin: "10px" }}
+        />
         <input
           value={inputvalue}
           onChange={handleChange}
           onKeyDown={(e) => {
             if (e.key === "Enter") handleClick();
           }}
+          ref={inputRef}
         />
+
         {!inputvalue && (
-          <MicTwoToneIcon sx={{ margin: "10px", flexShrink: 2 }} />
+          <MicTwoToneIcon
+            sx={{
+              margin: "10px",
+              flexShrink: 2,
+            }}
+          />
         )}
         {inputvalue && (
           <SendIcon onClick={handleClick} sx={{ marginTop: "10px" }} />

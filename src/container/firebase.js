@@ -6,14 +6,13 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
-
 const firebaseConfig = {
-  apiKey: "AIzaSyAEdLKAmit30Gzrd19FynNR7Ryeqg59Cio",
-  authDomain: "whatsapp-874b2.firebaseapp.com",
-  projectId: "whatsapp-874b2",
-  storageBucket: "whatsapp-874b2.appspot.com",
-  messagingSenderId: "432871392827",
-  appId: "1:432871392827:web:a374a89194d2eb2b963e1e",
+  apiKey: "AIzaSyCIy1BSYLgqgoXSduLvkaNkw9m6paHZ8mE",
+  authDomain: "whatsapp-8ecbf.firebaseapp.com",
+  projectId: "whatsapp-8ecbf",
+  storageBucket: "whatsapp-8ecbf.appspot.com",
+  messagingSenderId: "939992906257",
+  appId: "1:939992906257:web:d0d1e87ea5c2fe9d584fb0",
 };
 
 // Initialize Firebase

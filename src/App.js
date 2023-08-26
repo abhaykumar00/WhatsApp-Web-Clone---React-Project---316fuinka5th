@@ -12,7 +12,7 @@ function App() {
 
   const location = useLocation();
   const { userPhotoUrl, userName } = location.state ?? {
-    userPhotoUrl: "A",
+    userPhotoUrl: "",
     // if(userPhotoUrl.indexOf("http")!==-1 &&
   };
 
@@ -25,11 +25,15 @@ function App() {
   const [displaypartTwoFour, setDisplayPartTwoFour] = useState(true);
   const [part2Active, setPart2Active] = useState(false);
   const userRef = useRef(false);
-
+  const [groupLogo, setGroupLogo] = useState("");
+  const [searchMessage, setSearchMessage] = useState();
+  const [sidebar, setSidebar] = useState(false);
   return (
     <>
       <MyContext.Provider
         value={{
+          setSearchMessage,
+          searchMessage,
           lastSeen,
           lastMessage,
           setLastMessage,
@@ -50,6 +54,10 @@ function App() {
           userRef,
           newRef,
           userName,
+          setGroupLogo,
+          groupLogo,
+          sidebar,
+          setSidebar,
         }}
       >
         <Routes>

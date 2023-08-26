@@ -52,7 +52,7 @@
 /* ChatName css */
 .chatNames {
   background-color: #EDEDED;
-  overflow: auto;
+ 
 }
 .chatNames input{
   padding-left: 40px;
@@ -74,11 +74,16 @@
   margin: 0px;
   padding-bottom: 0px;
   background-color: white;
-  font-size: 30px;
+  font-size: 25px;
+  transition: transform 0.5s ease;
   
 }
 .chatNames2 h1:hover{
   box-shadow: #d9c4c4 ;
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3);
+  font-size: 27px;
+  color: rgb(189, 189, 232);
+ 
 }
 .chatNames4{
 margin-top: 30px;
@@ -130,6 +135,7 @@ margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
+
 .inputBottomdiv{
   position: absolute;
   bottom: 0;
@@ -148,7 +154,7 @@ margin-top: 30px;
   display: flex;
   flex-direction: column;
  align-items: flex-end;
-
+ 
  
 }
 
@@ -199,15 +205,17 @@ margin-top: 30px;
   padding: 7px;
   margin-top: 0;
 }
-@media (min-width: 566px) and (max-width: 900px) {
+@media (min-width: 620px) and (max-width: 900px) {
 .part1,.part3{
-  width: 300px;
+  width: 500px;
+  flex-shrink: unset;
 }
-.chatNames input{
-  
+.part2,.part4{
+  flex-shrink: 3;
 }
+
 }
-@media(max-width: 566px){
+@media(max-width: 599px){
   body{
     display: flex;
     flex-direction: column;
@@ -226,7 +234,7 @@ margin-top: 30px;
     width: 100%;
     height: 80px;
     z-index: 1;
-    flex-shrink: 1;
+    flex-shrink: 2;
 }
 .chatNames input{
   width: 70%;
@@ -236,7 +244,7 @@ margin-top: 30px;
     position: absolute;
     margin-top: 80px;
     z-index: 3; 
-    flex-shrink: 1;
+    flex-shrink: 2;
 }
 .part2 {
   position: absolute;
@@ -266,5 +274,55 @@ margin-top: 30px;
 .cursor:hover{
   border-radius: 50%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Change the shadow color and size as desired */
+  cursor: pointer;
+}
+.imoji{
+  height:200px;
+  width: 200px;
+  background-color: rgb(229, 224, 224);
+  position: absolute;
+  bottom: 45px;
+  left: 0;
+  z-index:99;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  gap: 0;
+
+  padding: 5px;
+  margin: 5px;
+}
+.imoji p{
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  font-size: 20px;
+  gap: 5px;
+}
+.sidebar{
+ 
+  position: absolute;
+  top: -20px;
+  right: 0px;
+  font-size: 30px;
+  background-color: white;
+
+  margin-top: 0;
+  z-index: 2;
+  width: 200px;
+  height: 50%;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+.sidebar1{
+  text-align: center;
+  font-weight: normal;
+  padding: 5px auto;
+  padding-bottom:5px;
+  text-decoration: none;
+  
+ 
+}
+.sidebar1:hover{
+  background-color: #d9c4c4;
   cursor: pointer;
 }

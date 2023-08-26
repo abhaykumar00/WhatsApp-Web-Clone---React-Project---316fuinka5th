@@ -17,6 +17,7 @@ const ChatNames = () => {
     part2Active,
     setPart2Active,
     userRef,
+    setGroupLogo,
   } = useContext(MyContext);
 
   const links = [
@@ -27,15 +28,17 @@ const ChatNames = () => {
   const [documents, setDocuments] = useState([{ name: "" }]);
   const { nameId, setNameId } = useContext(MyContext);
   const [changeName, setChangeName] = useState(false);
+  const [searching, setSearching] = useState("");
+  const [newSearching, setNewSeraching] = useState([]);
 
   const handleWindowResize = () => {
     const windowWidth = window.innerWidth;
-    if (windowWidth > 606) {
+    if (windowWidth > 599) {
       setStyleWidth(false);
       setDisplayPartTwoFour(false);
       setPart2Active(false);
     }
-    if (windowWidth <= 606) {
+    if (windowWidth <= 600) {
       if (userRef.current) {
         setDisplayPartTwoFour(false);
         setStyleWidth(true);
@@ -45,11 +48,9 @@ const ChatNames = () => {
     }
   };
 
-  // Add the event listener using useEffect
   useEffect(() => {
     window.addEventListener("resize", handleWindowResize);
 
-    // Clean up the event listener when the component is unmounted
     return () => {
       window.removeEventListener("resize", handleWindowResize);
     };
@@ -103,6 +104,7 @@ const ChatNames = () => {
         });
         setDocuments(fetchedDocuments);
         setNameId([...fetchedDocuments]);
+        setNewSeraching([...fetchedDocuments]);
       } catch (error) {
         console.error("Error fetching documents from Firestore: ", error);
       }
@@ -111,17 +113,29 @@ const ChatNames = () => {
     fetchFirestoreDocuments();
   }, [changeName, lastMessage]);
 
+  function handleSearching(event) {
+    if (event.target.value) {
+      const valuee = nameId.filter(
+        (name) => name.name.indexOf(event.target.value) !== -1
+      );
+      setNewSeraching(valuee);
+    } else {
+      const valuee = nameId;
+      setNewSeraching(valuee);
+    }
+  }
+
   return (
     <>
       <div className="chatNames">
         <SearchIcon sx={{ position: "absolute", left: "19px", top: "12px" }} />
 
-        <input />
+        <input onChange={handleSearching} />
       </div>
       <div className="chatNames2">
         <h1 onClick={handleNewName}>Add New Group +</h1>
         <div className="chatNames4">
-          {nameId.map((name) => (
+          {newSearching.map((name) => (
             <Link
               to={"/" + name.id}
               key={name.id}
@@ -130,7 +144,7 @@ const ChatNames = () => {
               <div
                 className="chatNamesDiv"
                 onClick={() => {
-                  if (window.innerWidth < 606) {
+                  if (window.innerWidth < 620) {
                     setStyleWidth(true);
 
                     userRef.current = true;
@@ -139,6 +153,7 @@ const ChatNames = () => {
                   }
                   setId(name.id);
                   setHeaderName(name.name);
+                  setGroupLogo(name.src);
                 }}
                 key={name.id}
               >

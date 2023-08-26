@@ -9,12 +9,16 @@ import { MyContext } from "../App";
 
 const HeaderRight = () => {
   const {
+    setSearchMessage,
     lastSeen,
     headerName,
     stylesWidth,
     setStyleWidth,
     setDisplayPartTwoFour,
     userRef,
+    groupLogo,
+    setSidebar,
+    sidebar,
   } = useContext(MyContext);
   const windowWidth = window.innerWidth;
   if (windowWidth > 600) {
@@ -28,6 +32,7 @@ const HeaderRight = () => {
     setDisplayPartTwoFour(true);
     setStyleWidth(false);
   };
+  function searchIcon() {}
   return (
     <div className="HeaderRight">
       <div className="HeaderLeft">
@@ -41,7 +46,7 @@ const HeaderRight = () => {
           onClick={handleImgClick}
         />
         <div>
-          <Avatar alt="Remy Sharp" src="" className="header3part" />
+          <Avatar alt="Remy Sharp" src={groupLogo} className="header3part" />
         </div>
         <div>
           <h2 style={{ margin: 0, marginLeft: "20px" }}>{headerName}</h2>
@@ -51,9 +56,15 @@ const HeaderRight = () => {
         </div>
       </div>
       <div className="headerLeft2part">
-        <SearchSharpIcon className="header2part cursor" />
+        <SearchSharpIcon
+          className="header2part cursor"
+          onClick={(event) => setSearchMessage(event.target.value)}
+        />
         <AttachFileTwoToneIcon className="header2part cursor" />
-        <MoreVertSharpIcon className="header2part cursor" />
+        <MoreVertSharpIcon
+          className="header2part cursor"
+          onClick={() => setSidebar(!sidebar)}
+        />
       </div>
     </div>
   );

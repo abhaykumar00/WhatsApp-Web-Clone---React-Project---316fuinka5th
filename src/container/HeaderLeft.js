@@ -5,15 +5,17 @@ import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
 import CommentSharpIcon from "@mui/icons-material/CommentSharp";
 import { MyContext } from "../App";
 const HeaderLeft = () => {
-  const mynewRef = useRef("H");
+  const mynewRef = useRef("P");
 
   const { userPhotoUrl } = useContext(MyContext);
+
   if (userPhotoUrl.indexOf("http") !== -1) {
     mynewRef.current = userPhotoUrl;
   }
   return (
     <div className="HeaderLeft">
       <Avatar alt="Remy Sharp" src={mynewRef.current} className="header3part" />
+
       <div className="HeaderLeft2">
         <Avatar
           sx={{ width: "25px", height: "25px" }}
