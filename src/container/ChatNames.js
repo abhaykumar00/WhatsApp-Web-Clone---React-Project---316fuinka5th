@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import firestore from "../firebase";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import { MyContext } from "../App";
+import { green } from "@mui/material/colors";
 
 let style = { display: "none" };
 const ChatNames = () => {
@@ -162,9 +163,36 @@ const ChatNames = () => {
                   src={name.src}
                   alt="image"
                 ></img>
-                <div>
-                  <h6>{name.name}</h6>
+                <div style={{ marginLeft: "10px" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
 
+                      paddingBottom: "0",
+                      height: "30px",
+                      width: "300px",
+                    }}
+                  >
+                    <h6 className="chatNamesDivH6">{name.name}</h6>
+                    <h5
+                      style={{
+                        display: "flex",
+
+                        marginTop: "10px",
+                        marginLeft: "100px",
+                        right: "0px",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      {name &&
+                        name.message &&
+                        name.message[name.message.length - 1] &&
+                        name.message[name.message.length - 1].day && (
+                          <p>{name.message[name.message.length - 1].day}</p>
+                        )}
+                    </h5>
+                  </div>
                   <p>
                     {name &&
                       name.message &&

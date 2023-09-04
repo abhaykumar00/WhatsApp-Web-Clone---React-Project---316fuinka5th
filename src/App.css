@@ -7,12 +7,12 @@
   margin: 5px 5px 0 5px;
 }
 .part {
-  border: 1px solid #d9c4c4;
+  border: 1px solid #e9edef;
   position: relative;
 }
 
 .part1 ,.part2{
-  background-color: #EDEDED;
+  background-color: #f0f2f5;
 }
 
 /* Headerleft css */
@@ -93,15 +93,16 @@ margin-top: 30px;
  display: flex;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #e9edef;
   justify-content: start;
   flex-direction: row;
   align-items: center;
 }
-.chatNamesDiv div{
-  margin-left: 2px;
+.chatNamesDiv:hover{
+  background-color: #eae6df;
 }
-.chatNamesDiv h6{
+
+.chatNamesDivH6{
   margin-bottom: 10px;
   margin-top: 10px;
 }
@@ -142,7 +143,7 @@ margin-top: 30px;
   left: 0;
   width: 100%;
   display: flex;
-  background-color: lightgray;
+  background-color: #eae6df;
 }
 .inputBottomdiv input{
   flex: 1;
@@ -325,4 +326,28 @@ margin-top: 30px;
 .sidebar1:hover{
   background-color: #d9c4c4;
   cursor: pointer;
+}
+.hider{
+  background-color: white;
+  width: 100%;
+  overflow: hidden;
+}
+.header div h5{
+  height: 20px;
+  position: relative;
+  top: 0%;
+  left: 100%;
+ color: blue;
+}
+.hider img{
+  height: 100px;
+  width: 100px;
+  position: relative;
+  top: 30%;
+  left: 50%;
+}
+.hider p{
+  position: relative;
+  top: 30%;
+  left: 51%;
 }

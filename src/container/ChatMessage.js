@@ -1,5 +1,7 @@
 import React, { useContext, useRef } from "react";
 import "../App.css";
+import { v4 } from "uuid";
+import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import emojiData from "./emojiData";
 import { doc, setDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
@@ -8,8 +10,11 @@ import SentimentSatisfiedTwoToneIcon from "@mui/icons-material/SentimentSatisfie
 import MicTwoToneIcon from "@mui/icons-material/MicTwoTone";
 import SendIcon from "@mui/icons-material/Send";
 import { MyContext } from "../App";
+import AttachFileTwoToneIcon from "@mui/icons-material/AttachFileTwoTone";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
+import { storage } from "./firebase";
 const ChatMessage = () => {
+  const imagesListRef = ref(storage, "images/");
   const inputRef = useRef(null);
   const refScroller = useRef(null);
   const userNameref = useRef();
@@ -36,6 +41,23 @@ const ChatMessage = () => {
   const [imogivalue, setImogivalue] = useState(false);
 
   let time = "";
+  const fileInputRef = useRef(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    if (file) {
+      const imageRef = await ref(storage, `images/${file.name + v4()}`);
+      uploadBytes(imageRef, file).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then((url) => {
+          console.log(url);
+          if (fileInputRef.current) {
+            fileInputRef.current.value = ""; // Clear the input value
+          }
+        });
+      });
+    }
+  };
 
   function handleChange(event) {
     setInputValue(event.target.value);
@@ -143,7 +165,9 @@ const ChatMessage = () => {
       block: "end",
     });
   }, [fetchValue]);
-
+  function openFileSelection() {
+    fileInputRef.current.click();
+  }
   return (
     <div className="chatLive">
       {sidebar && (
@@ -153,18 +177,15 @@ const ChatMessage = () => {
           </Link>
         </div>
       )}
-
-      <div className="messageLive">
-        {/* <div className="chatReciever">
-          <h1>reciever</h1>
-          <div
-            style={{ display: "flex", flexDirection: "row" }}
-            className="messageWrapper"
-          >
-            <p className="p1">this is message</p>
-            <p className="p2">23:43:23 GMT</p>
-          </div>
-        </div> */}
+      <div className="messageLive hider">
+        <div>
+          <h5>name of your item</h5>
+        </div>
+        <img src="https://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/256/document-icon.png" />
+        <p>No preview Availble</p>
+      </div>
+      {/* <div className="messageLive">
+      
         {imogivalue && (
           <div className="imoji">
             {emojiData.map((emoji, index) => (
@@ -199,11 +220,23 @@ const ChatMessage = () => {
           </div>
         ))}
         <div ref={refScroller} />
-      </div>
+      </div> */}
       <div className="inputBottomdiv">
         <SentimentSatisfiedTwoToneIcon
+          className="cursor"
           onClick={() => setImogivalue(!imogivalue)}
           sx={{ margin: "10px" }}
+        />
+        <AttachFileTwoToneIcon
+          className="cursor"
+          onClick={openFileSelection}
+          sx={{ marginTop: "10px", marginRight: "5px" }}
+        />
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
         />
         <input
           value={inputvalue}
@@ -223,7 +256,10 @@ const ChatMessage = () => {
           />
         )}
         {inputvalue && (
-          <SendIcon onClick={handleClick} sx={{ marginTop: "10px" }} />
+          <SendIcon
+            onClick={handleClick}
+            sx={{ marginTop: "10px", paddingRight: "3px" }}
+          />
         )}
       </div>
     </div>

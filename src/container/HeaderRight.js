@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef, useState } from "react";
 import "../App.css";
 import Avatar from "@mui/material/Avatar";
 import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
@@ -32,7 +32,7 @@ const HeaderRight = () => {
     setDisplayPartTwoFour(true);
     setStyleWidth(false);
   };
-  function searchIcon() {}
+
   return (
     <div className="HeaderRight">
       <div className="HeaderLeft">
@@ -61,6 +61,7 @@ const HeaderRight = () => {
           onClick={(event) => setSearchMessage(event.target.value)}
         />
         <AttachFileTwoToneIcon className="header2part cursor" />
+
         <MoreVertSharpIcon
           className="header2part cursor"
           onClick={() => setSidebar(!sidebar)}
