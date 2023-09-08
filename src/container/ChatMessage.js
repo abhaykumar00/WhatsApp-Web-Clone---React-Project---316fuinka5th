@@ -181,7 +181,6 @@ const ChatMessage = () => {
   };
 
   useEffect(() => {
-    
     return () => {
       if (mediaRecorder && mediaRecorder.state === "recording") {
         mediaRecorder.stop();
@@ -491,7 +490,7 @@ const ChatMessage = () => {
             </div>
           </div>
         )}
-        {!inputvalue && (
+        {!inputvalue && inputvalue && (
           <MicTwoToneIcon
             sx={{
               margin: "10px",
