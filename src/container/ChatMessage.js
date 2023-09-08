@@ -1,6 +1,7 @@
 import React, { useContext, useRef } from "react";
 import "../App.css";
 import { v4 } from "uuid";
+import { useCallback } from "react";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import emojiData from "./emojiData";
 import { doc, setDoc } from "firebase/firestore";
@@ -13,11 +14,13 @@ import { MyContext } from "../App";
 import AttachFileTwoToneIcon from "@mui/icons-material/AttachFileTwoTone";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import { storage } from "./firebase";
+
 const ChatMessage = () => {
   const imagesListRef = ref(storage, "images/");
   const inputRef = useRef(null);
   const refScroller = useRef(null);
   const userNameref = useRef();
+  const fileTypeRef = useRef("");
   const {
     setLastSeen,
     setLastMessage,
@@ -39,26 +42,45 @@ const ChatMessage = () => {
   const [imgSrc, setImgSrc] = useState();
   const [check, setCheck] = useState(false);
   const [imogivalue, setImogivalue] = useState(false);
+  const [fileType, setFileType] = useState("file");
+  const [displayFile, setDisplayFile] = useState(false);
+  const [isStop, setIsStop] = useState(false);
 
   let time = "";
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [urlOfFile, setUrlOfFile] = useState("");
+  const [isAudioOn, setIsAudioOn] = useState(false);
+
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
-    if (file) {
-      const imageRef = await ref(storage, `images/${file.name + v4()}`);
-      uploadBytes(imageRef, file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          console.log(url);
-          if (fileInputRef.current) {
-            fileInputRef.current.value = ""; // Clear the input value
-          }
-        });
-      });
-    }
+    setDisplayFile(true);
+    console.log("this is console of handle fileChange");
   };
+  async function uploadDocs() {
+    try {
+      if (selectedFile) {
+        const imageRef = await ref(
+          storage,
+          `images/${selectedFile.name + v4()}`
+        );
+        const snapshot = await uploadBytes(imageRef, selectedFile);
+        const url = await getDownloadURL(snapshot.ref);
+        console.log(url);
+        setUrlOfFile(url);
 
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""; // Clear the input value
+        }
+      }
+    } catch (error) {
+      console.error("Error uploading or retrieving the file:", error);
+      // Handle the error here, e.g., show an error message to the user
+    }
+    setDisplayFile(false);
+  }
+  if (urlOfFile !== null) handleClick();
   function handleChange(event) {
     setInputValue(event.target.value);
   }
@@ -68,13 +90,15 @@ const ChatMessage = () => {
   }
 
   async function handleClick() {
-    if (id)
-      if (inputvalue) {
+    console.log("this is urlof file", await urlOfFile);
+    if (id || (await urlOfFile))
+      if (inputvalue || (await urlOfFile)) {
         const currentDate = await new Date();
         const a = currentDate.toString();
         const b = a.indexOf("GMT");
         const c = a.substring(0, b + 3);
         time = c;
+        console.log(time);
         setLastSeen(c);
         setInputValue("");
         setLastMessage(inputvalue);
@@ -86,6 +110,7 @@ const ChatMessage = () => {
             class: "chatSender",
             message: inputvalue,
             time: time,
+            urlOfFile: urlOfFile,
           },
         ]);
 
@@ -97,8 +122,9 @@ const ChatMessage = () => {
                 {
                   name: userNameref.current,
                   class: "chatSender",
-                  message: inputvalue,
+                  message: inputvalue || "",
                   time: time,
+                  urlOfFile: urlOfFile,
                 },
               ],
               name: name,
@@ -112,9 +138,61 @@ const ChatMessage = () => {
         };
 
         setValueInFirestore();
+        setUrlOfFile("");
       }
   }
 
+  const [isRecording, setIsRecording] = useState(false);
+  const [audioChunks, setAudioChunks] = useState([]);
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks = [];
+
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          chunks.push(event.data);
+        }
+      };
+
+      recorder.onstop = () => {
+        const audioBlob = new Blob(chunks, { type: "audio/wav" });
+        setAudioChunks(chunks);
+      };
+
+      recorder.start();
+      setIsRecording(true);
+      setIsStop(true);
+      setMediaRecorder(recorder);
+    } catch (error) {
+      console.error("Error starting recording:", error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorder && mediaRecorder.state === "recording") {
+      mediaRecorder.stop();
+
+      setIsStop(false);
+    }
+  };
+
+  useEffect(() => {
+    
+    return () => {
+      if (mediaRecorder && mediaRecorder.state === "recording") {
+        mediaRecorder.stop();
+      }
+    };
+  }, [mediaRecorder]);
+
+  const handleTypeOfFile = useCallback((type) => {
+    setFileType(`${type}`);
+    console.log(`"${type}"`, "this is type asdjkfh");
+  });
   useEffect(() => {
     firestore
       .collection("names")
@@ -168,6 +246,10 @@ const ChatMessage = () => {
   function openFileSelection() {
     fileInputRef.current.click();
   }
+  {
+    console.log(fileTypeRef.current, "this is a file type");
+  }
+
   return (
     <div className="chatLive">
       {sidebar && (
@@ -177,50 +259,155 @@ const ChatMessage = () => {
           </Link>
         </div>
       )}
-      <div className="messageLive hider">
-        <div>
-          <h5>name of your item</h5>
-        </div>
-        <img src="https://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/256/document-icon.png" />
-        <p>No preview Availble</p>
-      </div>
-      {/* <div className="messageLive">
-      
-        {imogivalue && (
-          <div className="imoji">
-            {emojiData.map((emoji, index) => (
-              <p
-                onClick={() => {
-                  setInputValue(inputvalue + emoji.symbol);
-                  inputRef.current.focus();
-                }}
-                key={index}
-              >
-                {emoji.symbol}
-              </p>
-            ))}
+      {displayFile && (
+        <img
+          src="https://openclipart.org/image/2400px/svg_to_png/183568/close-button.png"
+          style={{
+            width: "40px",
+            height: "40px",
+            position: "fixed",
+            top: "85px",
+          }}
+          onClick={() => {
+            setDisplayFile(false);
+            setSelectedFile();
+          }}
+        />
+      )}
+      {displayFile && (
+        <div className="messageLive hider">
+          <div style={{ backgroundColor: "lightgray" }}>
+            <h5 className="messageLiveH5">name of your item</h5>
           </div>
-        )}
-        {fetchValue.map((value) => (
-          <div
-            className={
-              value.name === userNameref.current ? "chatSender" : "chatReciever"
-            }
-          >
-            <div className="chatSenderPart">
-              <h1>{value.name}</h1>
-              <div
-                style={{ display: "flex", flexDirection: "row" }}
-                className="messageWrapper"
-              >
-                <p className="p1">{value.message}</p>
-                <p className="p2">{value.time}</p>
+          <img src="https://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/256/document-icon.png" />
+          <p>No preview Availble</p>
+        </div>
+      )}
+      {!displayFile && (
+        <div className="messageLive">
+          {imogivalue && (
+            <div className="imoji">
+              {emojiData.map((emoji, index) => (
+                <p
+                  onClick={() => {
+                    setInputValue(inputvalue + emoji.symbol);
+                    inputRef.current.focus();
+                  }}
+                  key={index}
+                >
+                  {emoji.symbol}
+                </p>
+              ))}
+            </div>
+          )}
+          {fetchValue.map((value) => (
+            <div
+              className={
+                value.name === userNameref.current
+                  ? "chatSender"
+                  : "chatReciever"
+              }
+            >
+              <div className="chatSenderPart">
+                <h1>{value.name}</h1>
+                <div
+                  style={{ display: "flex", flexDirection: "row" }}
+                  className="messageWrapper"
+                >
+                  <p className="p1">{value.message}</p>
+                  <p className="p2">{value.time}</p>
+                  {value.message === "" && (
+                    <a
+                      href={value.urlOfFile}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img
+                        src={value.urlOfFile}
+                        style={{ width: "40px", height: "40px" }}
+                      />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-        <div ref={refScroller} />
-      </div> */}
+          ))}
+          <div ref={refScroller} />
+        </div>
+      )}
+
+      {/* {displayFile && (
+        <div
+          className="documentSenderDiv"
+          style={{
+            backgroundColor: "white",
+            zIndex: "5",
+            position: "absolute",
+            bottom: "50px",
+            left: "50px",
+          }}
+        >
+          <p
+            type="audio"
+            onClick={() => {
+              setDocsInput(false);
+              setVideoInput(false);
+              setAudioInput(true);
+              setImageInput(false);
+              fileInputRef.current.click();
+            }}
+          >
+            Audio
+          </p>
+
+          <p
+            type="video"
+            onClick={() => {
+              fileTypeRef.current = "video/*";
+              setFileType((prev) => "video/*");
+              fileInputRef.current.click();
+            }}
+          >
+            Video
+          </p>
+          <p
+            type="pdf"
+            onClick={() => {
+              setDocsInput(true);
+              setVideoInput(false);
+              setAudioInput(false);
+              setImageInput(false);
+            }}
+          >
+            Document
+          </p>
+          <p
+            type="img"
+            onClick={() => {
+              fileTypeRef.current = "image/*";
+
+              fileInputRef.current.click();
+              handleTypeOfFile("image/*");
+            }}
+          >
+            image
+          </p>
+        </div>
+      )} */}
+      {isAudioOn && (
+        <div
+          style={{
+            backgroundColor: "green",
+            width: "20px",
+            height: "20px",
+            zIndex: "10",
+            position: "fixed",
+            bottom: "100px",
+            right: "10px",
+          }}
+        ></div>
+      )}
+
       <div className="inputBottomdiv">
         <SentimentSatisfiedTwoToneIcon
           className="cursor"
@@ -232,12 +419,38 @@ const ChatMessage = () => {
           onClick={openFileSelection}
           sx={{ marginTop: "10px", marginRight: "5px" }}
         />
+        {/* {setAudioInput && (
+          <input
+            type="file"
+            // accept={valueoffile}
+            // accept={fileTypeRef.current}
+            accept="audio/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+        )}
+        {setVideoInput && (
+          <input
+            type="file"
+            // accept={valueoffile}
+            // accept={fileTypeRef.current}
+            accept="video/*"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+          />
+            )} */}
         <input
           type="file"
+          // accept={valueoffile}
+          // accept={fileTypeRef.current}
+          accept=""
           ref={fileInputRef}
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
+
         <input
           value={inputvalue}
           onChange={handleChange}
@@ -246,22 +459,70 @@ const ChatMessage = () => {
           }}
           ref={inputRef}
         />
-
+        {isRecording && (
+          <div
+            style={{
+              position: "absolute",
+              width: "99%",
+              height: "40px",
+              bottom: "0px",
+              left: "10px",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              zIndex: "50",
+              backgroundColor: "green",
+            }}
+          >
+            <button
+              onClick={() => setIsRecording(false)}
+              style={{ fontSize: "" }}
+            >
+              Cancle
+            </button>
+            <div>
+              {isStop && (
+                <button onClick={isRecording ? stopRecording : startRecording}>
+                  Stop
+                </button>
+              )}
+              <button>Send</button>
+            </div>
+          </div>
+        )}
         {!inputvalue && (
           <MicTwoToneIcon
             sx={{
               margin: "10px",
               flexShrink: 2,
             }}
+            onClick={isRecording ? stopRecording : startRecording}
           />
         )}
-        {inputvalue && (
+        {inputvalue && !displayFile && (
           <SendIcon
             onClick={handleClick}
             sx={{ marginTop: "10px", paddingRight: "3px" }}
           />
         )}
+        {displayFile && (
+          <SendIcon
+            onClick={uploadDocs}
+            sx={{ marginTop: "10px", paddingRight: "3px" }}
+          />
+        )}
       </div>
+
+      {/* {audioChunks.length > 0 && (
+        <audio controls>
+          <source
+            src={URL.createObjectURL(
+              new Blob(audioChunks, { type: "audio/wav" })
+            )}
+          />
+        </audio>
+      )} */}
     </div>
   );
 };

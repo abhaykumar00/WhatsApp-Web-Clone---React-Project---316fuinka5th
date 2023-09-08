@@ -339,6 +339,13 @@ margin-top: 30px;
   left: 100%;
  color: blue;
 }
+.messageLiveH5{
+  
+  position: relative;
+  
+  text-align: center;
+ 
+}
 .hider img{
   height: 100px;
   width: 100px;
@@ -350,4 +357,13 @@ margin-top: 30px;
   position: relative;
   top: 30%;
   left: 51%;
+}
+
+.documentSenderDiv p{
+  padding: 10px;
+  font-size: 15px;
+}
+.documentSenderDiv p:hover{
+  background-color: #d9c4c4;
+  cursor: pointer;
 }
