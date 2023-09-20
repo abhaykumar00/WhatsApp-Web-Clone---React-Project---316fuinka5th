@@ -14,6 +14,7 @@ import { MyContext } from "../App";
 import AttachFileTwoToneIcon from "@mui/icons-material/AttachFileTwoTone";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import { storage } from "./firebase";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 const ChatMessage = () => {
   const imagesListRef = ref(storage, "images/");
@@ -276,9 +277,12 @@ const ChatMessage = () => {
       {displayFile && (
         <div className="messageLive hider">
           <div style={{ backgroundColor: "lightgray" }}>
-            <h5 className="messageLiveH5">name of your item</h5>
+            <h5 className="messageLiveH5">{selectedFile.name}</h5>
           </div>
-          <img src="https://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/256/document-icon.png" />
+          <img
+            style={{ cursor: "pointer" }}
+            src="https://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/256/document-icon.png"
+          />
           <p>No preview Availble</p>
         </div>
       )}
