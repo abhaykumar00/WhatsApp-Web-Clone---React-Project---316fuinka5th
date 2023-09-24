@@ -132,9 +132,9 @@ const ChatNames = () => {
         <SearchIcon sx={{ position: "absolute", left: "19px", top: "12px" }} />
 
         <input onChange={handleSearching} />
+        <h1 onClick={handleNewName}>Add New Group +</h1>
       </div>
       <div className="chatNames2">
-        <h1 onClick={handleNewName}>Add New Group +</h1>
         <div className="chatNames4">
           {newSearching.map((name) => (
             <Link

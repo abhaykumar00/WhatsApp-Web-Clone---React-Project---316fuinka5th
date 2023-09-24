@@ -56,11 +56,11 @@ const HeaderRight = () => {
         </div>
       </div>
       <div className="headerLeft2part">
-        <SearchSharpIcon
+        {/* <SearchSharpIcon
           className="header2part cursor"
           onClick={(event) => setSearchMessage(event.target.value)}
         />
-        <AttachFileTwoToneIcon className="header2part cursor" />
+        <AttachFileTwoToneIcon className="header2part cursor" /> */}
 
         <MoreVertSharpIcon
           className="header2part cursor"

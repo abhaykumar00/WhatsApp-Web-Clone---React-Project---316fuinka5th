@@ -66,19 +66,22 @@
 .chatNames2{
   height: 70vh;
   overflow-Y: auto;
+  position: relative;
   
 }
-.chatNames2 h1{
+.chatNames h1{
   cursor: pointer;
-  position: fixed;
+  position: absolute;
+  top: 45px;
   margin: 0px;
   padding-bottom: 0px;
   background-color: white;
   font-size: 25px;
   transition: transform 0.5s ease;
+  z-index: 3;
   
 }
-.chatNames2 h1:hover{
+.chatNames h1:hover{
   box-shadow: #d9c4c4 ;
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3);
   font-size: 27px;
