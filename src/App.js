@@ -28,6 +28,7 @@ function App() {
   const [groupLogo, setGroupLogo] = useState("");
   const [searchMessage, setSearchMessage] = useState();
   const [sidebar, setSidebar] = useState(false);
+  const [newFetchValue, setNewFetchValue] = useState([]);
   return (
     <>
       <MyContext.Provider
@@ -58,6 +59,8 @@ function App() {
           groupLogo,
           sidebar,
           setSidebar,
+          newFetchValue,
+          setNewFetchValue,
         }}
       >
         <Routes>

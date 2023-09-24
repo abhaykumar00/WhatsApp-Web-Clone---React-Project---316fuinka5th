@@ -50,7 +50,7 @@ const ChatMessage = () => {
   let time = "";
   const fileInputRef = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [urlOfFile, setUrlOfFile] = useState("");
+  const [urlOfFile, setUrlOfFile] = useState(null);
   const [isAudioOn, setIsAudioOn] = useState(false);
 
   const handleFileChange = async (event) => {
@@ -81,7 +81,10 @@ const ChatMessage = () => {
     }
     setDisplayFile(false);
   }
-  if (urlOfFile !== null) handleClick();
+  if (urlOfFile !== null) {
+    console.log("this is url of  field");
+    handleClick();
+  }
   function handleChange(event) {
     setInputValue(event.target.value);
   }
@@ -139,7 +142,7 @@ const ChatMessage = () => {
         };
 
         setValueInFirestore();
-        setUrlOfFile("");
+        setUrlOfFile(null);
       }
   }
 
@@ -245,9 +248,6 @@ const ChatMessage = () => {
   }, [fetchValue]);
   function openFileSelection() {
     fileInputRef.current.click();
-  }
-  {
-    console.log(fileTypeRef.current, "this is a file type");
   }
 
   return (
@@ -458,7 +458,10 @@ const ChatMessage = () => {
           value={inputvalue}
           onChange={handleChange}
           onKeyDown={(e) => {
-            if (e.key === "Enter") handleClick();
+            if (e.key === "Enter") {
+              console.log("this is input field");
+              handleClick();
+            }
           }}
           ref={inputRef}
         />
