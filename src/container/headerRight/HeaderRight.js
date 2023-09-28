@@ -55,10 +55,8 @@ const HeaderRight = () => {
           <Avatar alt="Remy Sharp" src={groupLogo} className="header3part" />
         </div>
         <div>
-          <h2 style={{ margin: 0, marginLeft: "20px" }}>{headerName}</h2>
-          <p style={{ margin: 0, marginLeft: "20px", fontSize: "10px" }}>
-            {lastSeen}
-          </p>
+          <h2 className="header3part-h2">{headerName}</h2>
+          <p className="header3part-p">{lastSeen}</p>
         </div>
       </div>
       <div className="headerLeft2part">

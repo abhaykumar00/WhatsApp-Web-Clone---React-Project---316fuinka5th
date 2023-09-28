@@ -7,7 +7,7 @@ import firestore from "../../firebase";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import { MyContext } from "../../App";
 import setVisibilityForGroup from "../../Functions/Visibility";
-let style = { display: "none" };
+
 const ChatNames = () => {
   const {
     lastMessage,

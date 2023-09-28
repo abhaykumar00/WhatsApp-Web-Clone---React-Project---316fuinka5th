@@ -431,8 +431,8 @@ const ChatMessage = () => {
                       rel="noopener noreferrer"
                     >
                       <img
+                        className="messageWrapper-img"
                         src={value.urlOfFile}
-                        style={{ width: "40px", height: "40px" }}
                       />
                     </a>
                   )}
@@ -508,14 +508,12 @@ const ChatMessage = () => {
 
       <div className="inputBottomdiv">
         <SentimentSatisfiedTwoToneIcon
-          className="cursor"
+          className="cursor SentimentSatisfiedTwoToneIcon"
           onClick={() => setImogivalue(!imogivalue)}
-          sx={{ margin: "10px" }}
         />
         <AttachFileTwoToneIcon
-          className="cursor"
+          className="cursor AttachFileTwoToneIcon"
           onClick={openFileSelection}
-          sx={{ marginTop: "10px", marginRight: "5px" }}
         />
         {/* {setAudioInput && (
           <input
@@ -581,19 +579,9 @@ const ChatMessage = () => {
           />
         )}
         {inputvalue && !displayFile && (
-          <SendIcon
-            className="sendIcon"
-            onClick={handleClick}
-            sx={{ backgroundColor: "green" }}
-          />
+          <SendIcon className="sendIcon" onClick={handleClick} />
         )}
-        {displayFile && (
-          <SendIcon
-            className="sendIcon"
-            onClick={uploadDocs}
-            sx={{ marginTop: "10px", paddingRight: "3px" }}
-          />
-        )}
+        {displayFile && <SendIcon className="sendIcon" onClick={uploadDocs} />}
       </div>
 
       {/* {audioChunks.length > 0 && (
