@@ -1,11 +1,12 @@
 import React, { useContext, useRef, useState } from "react";
-import "../App.css";
+
+import "./headerRight.css";
 import Avatar from "@mui/material/Avatar";
 import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
 import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import AttachFileTwoToneIcon from "@mui/icons-material/AttachFileTwoTone";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { MyContext } from "../App";
+import { MyContext } from "../../App";
 
 const HeaderRight = () => {
   const {
@@ -19,7 +20,12 @@ const HeaderRight = () => {
     groupLogo,
     setSidebar,
     sidebar,
+    sidebarchild,
+    setSidebarChild,
   } = useContext(MyContext);
+
+  const retrievedObject = JSON.parse(localStorage.getItem("myObject"));
+  console.log(retrievedObject, "line 25 in header right");
   const windowWidth = window.innerWidth;
   if (windowWidth > 600) {
     setStyleWidth(false);

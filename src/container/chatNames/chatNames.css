@@ -1,0 +1,119 @@
+.chatNamesInput{
+    width: 70%;
+  }
+  .chatNames3 {
+    
+    overflow-y: auto; 
+    white-space: nowrap; 
+  }
+  
+  .chatNamesDiv-img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  .chatNames {
+    background-color: #EDEDED;
+  overflow: hidden;
+   
+  }
+  .chatNamesInput{
+    padding-left: 40px;
+     width: 80%;
+     border-radius: 20px;
+     height: 20px;
+     margin:10px 20px 10px 10px;
+     
+  }
+  
+  .chatNames2{
+    height: 70vh;
+    overflow-Y: auto;
+    position: relative;
+    
+  }
+  .chatNamesH1{
+    cursor: pointer;
+    position: absolute;
+    top: 45px;
+    margin: 0px;
+    padding-bottom: 0px;
+    background-color: white;
+    font-size: 25px;
+    transition: transform 0.5s ease;
+    z-index: 3;
+    
+  }
+  .chatNamesH1:hover{
+    box-shadow: #d9c4c4 ;
+    box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.3);
+    font-size: 27px;
+    color: rgb(189, 189, 232);
+   
+  }
+  .chatNames4{
+  margin-top: 30px;
+  overflow-x: hidden;
+ 
+  }
+  
+  .chatNamesDiv{
+   display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9edef;
+    justify-content: start;
+    flex-direction: row;
+    align-items: center;
+    max-width: 400px;
+  }
+  .chatNamesDiv:hover{
+    background-color: #eae6df;
+  }
+  
+  .chatNamesDivH6{
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  
+  .chatNames-searchIcon{
+    position: absolute;
+    left: 19px;
+    top: 12px;
+  }
+  .chatNames4-Link{
+    text-decoration: none;
+    color: inherit;
+   
+  }
+  .chatNamesDiv-img{
+    margin-left: 30px;
+  }
+  .chatNamesDiv-div{
+    margin-left: 10px;
+    max-width: 300px;
+    overflow: hidden;
+  }
+  .chatNamesDiv-childDiv{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0;
+    height: 30px;
+    width: 300px;
+  }
+  .chatNamesDivH5{
+    display: flex;
+    margin-top: 10px;
+    margin-left: 100px;
+    right: 0;
+    justify-content: flex-end;
+  }
+  .chatNamesDivH5P{
+    max-width: 200px;
+  }
+  @media (min-width: 350px) and (max-width: 900px) {
+    
+    .chatNamesH1{
+      margin-left: 30px;
+    }
+    }

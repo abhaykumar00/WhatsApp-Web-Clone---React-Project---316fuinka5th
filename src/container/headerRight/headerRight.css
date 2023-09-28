@@ -1,0 +1,46 @@
+.HeaderRight{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .HeaderLeft{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .cursor:hover{
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+    cursor: pointer;
+  }
+  .header3part{
+    margin-left: 20px;
+  }
+  .headerLeft2part{
+    margin-right: 15px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .headerRight-ArrowBack1{
+    display: none;
+  }
+.headerRight-ArrowBack2{
+  margin-right: 0px;
+  width: 30px;
+  height: 30px;
+}
+.headerRightDiv{
+
+}
+.headerRightDivH2{
+  margin: 0;
+  margin-left: 20px;
+}
+.headerRightDivP{
+  margin: 0;
+  margin-left: 20px;
+  font-size: 10px;
+}

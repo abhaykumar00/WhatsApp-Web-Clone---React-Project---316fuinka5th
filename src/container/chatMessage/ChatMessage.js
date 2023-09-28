@@ -1,21 +1,24 @@
 import React, { useContext, useRef } from "react";
-import "../App.css";
+
+import "./chatMessage.css";
 import { v4 } from "uuid";
 import { useCallback } from "react";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
-import emojiData from "./emojiData";
+import emojiData from ".././emojiData";
 import { doc, setDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import firestore from "../firebase";
+import firestore from "../../firebase";
 import SentimentSatisfiedTwoToneIcon from "@mui/icons-material/SentimentSatisfiedTwoTone";
 import MicTwoToneIcon from "@mui/icons-material/MicTwoTone";
 import SendIcon from "@mui/icons-material/Send";
-import { MyContext } from "../App";
+import { MyContext } from "../../App";
 import AttachFileTwoToneIcon from "@mui/icons-material/AttachFileTwoTone";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
-import { storage } from "./firebase";
-import { hover } from "@testing-library/user-event/dist/hover";
+import { storage } from ".././firebase";
+import firebaseApiCall from "../../Functions/FirebaseApiCall";
+import deleteFirestoreDocumentById from "../../Functions/delete";
 
+import setVisibilityForGroup from "../../Functions/Visibility";
 const ChatMessage = () => {
   const imagesListRef = ref(storage, "images/");
   const inputRef = useRef(null);
@@ -27,9 +30,14 @@ const ChatMessage = () => {
     setLastMessage,
     id,
     userName,
-    searchMessage,
+    setHeaderName,
     setSidebar,
     sidebar,
+    email,
+    setNameChat,
+    globalAllGmail,
+    slider2,
+    setSlider2,
   } = useContext(MyContext);
 
   //const newRef = useRef(null);
@@ -37,6 +45,7 @@ const ChatMessage = () => {
   //   newRef.current = userName;
   //   console.log(userName, "this is person name", newRef);
   // }
+  const [adminName, setAdminName] = useState("");
   const [inputvalue, setInputValue] = useState("");
   const [fetchValue, setfetchVAlue] = useState([]);
   const [name, setName] = useState("");
@@ -46,6 +55,7 @@ const ChatMessage = () => {
   const [fileType, setFileType] = useState("file");
   const [displayFile, setDisplayFile] = useState(false);
   const [isStop, setIsStop] = useState(false);
+  const [visible, setVisibil] = useState([]);
 
   let time = "";
   const fileInputRef = useRef(null);
@@ -95,7 +105,8 @@ const ChatMessage = () => {
 
   async function handleClick() {
     console.log("this is urlof file", await urlOfFile);
-    if (id || (await urlOfFile))
+
+    if ((id || (await urlOfFile)) && !displayFile) {
       if (inputvalue || (await urlOfFile)) {
         const currentDate = await new Date();
         const a = currentDate.toString();
@@ -107,6 +118,7 @@ const ChatMessage = () => {
         setInputValue("");
         setLastMessage(inputvalue);
         setCheck(!check);
+
         setfetchVAlue([
           ...fetchValue,
           {
@@ -119,31 +131,69 @@ const ChatMessage = () => {
         ]);
 
         const setValueInFirestore = async () => {
-          try {
-            await setDoc(doc(firestore, "names", id), {
-              message: [
-                ...fetchValue,
-                {
-                  name: userNameref.current,
-                  class: "chatSender",
-                  message: inputvalue || "",
-                  time: time,
-                  urlOfFile: urlOfFile,
-                },
-              ],
-              name: name,
-              src: imgSrc,
-            });
+          if (localStorage.getItem("type") === "all") {
+            console.log(adminName, "thi is line 133 admin name", adminName);
+            try {
+              await setDoc(doc(firestore, "names", id), {
+                message: [
+                  ...fetchValue,
+                  {
+                    name: userNameref.current,
+                    class: "chatSender",
+                    message: inputvalue || "",
+                    time: time,
+                    urlOfFile: urlOfFile,
+                  },
+                ],
 
-            console.log("Value set in Firestore abhay");
-          } catch (error) {
-            console.error("Error setting value in Firestore:", error);
+                name: name,
+                src: imgSrc,
+                type: localStorage.getItem("type"),
+                adminName: adminName,
+                visibility: [...visible],
+              });
+
+              console.log("Value set in Firestore abhay");
+            } catch (error) {
+              console.error("Error setting value in Firestore:", error);
+            }
+          } else if (localStorage.getItem("type") === "personal") {
+            const newValue = JSON.parse(localStorage.getItem("gmailNameObj"));
+            console.log("line number 153 is run", newValue);
+            try {
+              await setDoc(doc(firestore, "names", id), {
+                message: [
+                  ...fetchValue,
+                  {
+                    name: userNameref.current,
+                    class: "chatSender",
+                    message: inputvalue || "",
+                    time: time,
+                    urlOfFile: urlOfFile,
+                  },
+                ],
+                name1: newValue.name1,
+                name2: newValue.name2,
+                gmail1: newValue.gmail1,
+                gmail2: newValue.gmail2,
+                src1: newValue.src1,
+                src2: newValue.src2,
+                type: localStorage.getItem("type"),
+              });
+
+              console.log("Value set in Firestore abhay");
+            } catch (error) {
+              console.error("Error setting value in Firestore:", error);
+            }
           }
         };
 
         setValueInFirestore();
         setUrlOfFile(null);
       }
+    } else if (displayFile) {
+      uploadDocs();
+    }
   }
 
   const [isRecording, setIsRecording] = useState(false);
@@ -206,7 +256,8 @@ const ChatMessage = () => {
           const data = doc.data();
           setName(data.name);
           setImgSrc(data.src);
-          // Access the desired value
+
+          localStorage.setItem("myObject", JSON.stringify({ data, id }));
           const value = data.message;
           setfetchVAlue(value);
           if (value.length > 0) setLastSeen(value[value.length - 1].time);
@@ -226,7 +277,14 @@ const ChatMessage = () => {
       .onSnapshot((doc) => {
         if (doc.exists) {
           const data = doc.data();
+          setVisibil(data.visibility);
+          console.log(
+            "this is data.visibility line 277",
+            data.visibility,
+            data.adminName
+          );
           const value = data.message;
+          setAdminName(data.adminName);
           setfetchVAlue(() => [...value]);
           if (value.length > 0) setLastSeen(value[value.length - 1].time);
           else setLastSeen("");
@@ -251,23 +309,74 @@ const ChatMessage = () => {
   }
 
   return (
-    <div className="chatLive">
+    <div
+      className="chatLive"
+      onClick={() => {
+        if (slider2) setSlider2(false);
+        setNameChat(false);
+      }}
+    >
+      {slider2 && (
+        <div className="sidebarChild">
+          {globalAllGmail.map((val) => (
+            <div
+              className="sidebarChildDiv"
+              onClick={() => {
+                setVisibilityForGroup({
+                  email: val.gmail,
+                  id,
+                });
+                setSlider2(false);
+              }}
+              key={val.gmail}
+            >
+              <p className="sidebarChildP">{val.name}</p>
+              <h6 className="sidebarChildh6">{val.gmail}</h6>
+            </div>
+          ))}
+        </div>
+      )}
       {sidebar && (
         <div className="sidebar">
-          <Link to="/" style={{ textDecoration: "none", color: "black" }}>
+          <Link to="/" className="sidebarLink">
             <h6 className="sidebar1">Signout</h6>
           </Link>
+          {adminName === email && (
+            <Link to="/home" className="sidebarLinkAnother">
+              <p
+                className="sidebar1Link sidebar1"
+                onClick={() => {
+                  setSidebar(false);
+
+                  deleteFirestoreDocumentById({
+                    id,
+                    setHeaderName,
+                    setLastSeen,
+                    setfetchVAlue,
+                  });
+                }}
+              >
+                Delete Group
+              </p>
+            </Link>
+          )}
+          {adminName === email && (
+            <p
+              onClick={() => {
+                setSlider2(!slider2);
+                console.log("slider", slider2);
+              }}
+              className="sidebar1"
+            >
+              add member
+            </p>
+          )}
         </div>
       )}
       {displayFile && (
         <img
+          className="displayFileImag"
           src="https://openclipart.org/image/2400px/svg_to_png/183568/close-button.png"
-          style={{
-            width: "40px",
-            height: "40px",
-            position: "fixed",
-            top: "85px",
-          }}
           onClick={() => {
             setDisplayFile(false);
             setSelectedFile();
@@ -276,14 +385,14 @@ const ChatMessage = () => {
       )}
       {displayFile && (
         <div className="messageLive hider">
-          <div style={{ backgroundColor: "lightgray" }}>
+          <div className="messageLiveDiv">
             <h5 className="messageLiveH5">{selectedFile.name}</h5>
           </div>
           <img
-            style={{ cursor: "pointer" }}
+            className="messageLiveImg"
             src="https://icons.iconarchive.com/icons/custom-icon-design/mono-general-2/256/document-icon.png"
           />
-          <p>No preview Availble</p>
+          <p className="messageLiveP">No preview Availble</p>
         </div>
       )}
       {!displayFile && (
@@ -292,6 +401,7 @@ const ChatMessage = () => {
             <div className="imoji">
               {emojiData.map((emoji, index) => (
                 <p
+                  className="imojiP"
                   onClick={() => {
                     setInputValue(inputvalue + emoji.symbol);
                     inputRef.current.focus();
@@ -312,14 +422,9 @@ const ChatMessage = () => {
               }
             >
               <div className="chatSenderPart">
-                <h1>{value.name}</h1>
-                <div
-                  style={{ display: "flex", flexDirection: "row" }}
-                  className="messageWrapper"
-                >
-                  <p className="p1">{value.message}</p>
-                  <p className="p2">{value.time}</p>
-                  {value.message === "" && (
+                <h1 className="chatSenderPartH1">{value.name}</h1>
+                <div className="messageWrapper">
+                  {value.urlOfFile && (
                     <a
                       href={value.urlOfFile}
                       target="_blank"
@@ -331,6 +436,8 @@ const ChatMessage = () => {
                       />
                     </a>
                   )}
+                  <p className="p1">{value.message}</p>
+                  <p className="p2">{value.time}</p>
                 </div>
               </div>
             </div>
@@ -397,19 +504,7 @@ const ChatMessage = () => {
           </p>
         </div>
       )} */}
-      {isAudioOn && (
-        <div
-          style={{
-            backgroundColor: "green",
-            width: "20px",
-            height: "20px",
-            zIndex: "10",
-            position: "fixed",
-            bottom: "100px",
-            right: "10px",
-          }}
-        ></div>
-      )}
+      {isAudioOn && <div></div>}
 
       <div className="inputBottomdiv">
         <SentimentSatisfiedTwoToneIcon
@@ -445,18 +540,19 @@ const ChatMessage = () => {
           />
             )} */}
         <input
+          className="inputFile"
           type="file"
           // accept={valueoffile}
           // accept={fileTypeRef.current}
           accept="image/*"
           ref={fileInputRef}
-          style={{ display: "none" }}
           onChange={handleFileChange}
         />
 
         <input
           value={inputvalue}
           onChange={handleChange}
+          className="inputMessage"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               console.log("this is input field");
@@ -466,27 +562,8 @@ const ChatMessage = () => {
           ref={inputRef}
         />
         {isRecording && (
-          <div
-            style={{
-              position: "absolute",
-              width: "99%",
-              height: "40px",
-              bottom: "0px",
-              left: "10px",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-              zIndex: "50",
-              backgroundColor: "green",
-            }}
-          >
-            <button
-              onClick={() => setIsRecording(false)}
-              style={{ fontSize: "" }}
-            >
-              Cancle
-            </button>
+          <div className="recording">
+            <button onClick={() => setIsRecording(false)}>Cancle</button>
             <div>
               {isStop && (
                 <button onClick={isRecording ? stopRecording : startRecording}>
@@ -499,21 +576,20 @@ const ChatMessage = () => {
         )}
         {!inputvalue && inputvalue && (
           <MicTwoToneIcon
-            sx={{
-              margin: "10px",
-              flexShrink: 2,
-            }}
+            className="micTwoOneIcon"
             onClick={isRecording ? stopRecording : startRecording}
           />
         )}
         {inputvalue && !displayFile && (
           <SendIcon
+            className="sendIcon"
             onClick={handleClick}
-            sx={{ marginTop: "10px", paddingRight: "3px" }}
+            sx={{ backgroundColor: "green" }}
           />
         )}
         {displayFile && (
           <SendIcon
+            className="sendIcon"
             onClick={uploadDocs}
             sx={{ marginTop: "10px", paddingRight: "3px" }}
           />

@@ -1,0 +1,276 @@
+.chatLive{
+    display: grid;
+    grid-template-rows: 10fr 1fr;
+   flex: 1;
+   flex-shrink: 1;
+   background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+   background-repeat: repeat;
+   background-position: center;
+  }
+  .messageLive{
+    height: 71vh;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar{
+ 
+    position: absolute;
+    top: -10px;
+    right: 0px;
+    font-size: 10px;
+    background-color: white;
+    z-index: 53;
+  
+    margin-top: 0;
+    z-index: 2;
+    width: 150px;
+    height: 50%;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  }
+  .sidebarLink{
+    text-decoration: none;
+    color: black;
+  }
+  .sidebarLinkAnother{
+text-decoration: none;
+  }
+  
+  .sidebar1{
+    text-align: center;
+    font-weight: normal;
+    padding: 5px auto;
+    padding-bottom:5px;
+    text-decoration: none;
+    margin: 0;
+    margin-top: 10px;
+    text-decoration: none;
+    font-size: 20px;
+    
+   
+  }
+  .sidebar1:hover{
+    background-color: #d9c4c4;
+    cursor: pointer;
+  }
+  .displayFileImag{
+    width: 40px;
+    height: 40px;
+    position: fixed;
+    top: 85px;
+  }
+  .messageLiveDiv{
+    background-color: lightgrey;
+  }
+  .messageLiveImg{
+    cursor: pointer;
+  }
+  .messageLiveH5{
+  
+    position: relative;
+    
+    text-align: center;
+   
+  }
+  .messageLiveImg{
+    height: 100px;
+    width: 100px;
+    position: relative;
+    top: 30%;
+    left: 50%;
+  }
+  .messageLiveP{
+    position: relative;
+    top: 30%;
+    left: 51%;
+  }
+  .hider{
+    background-color: white;
+    width: 100%;
+    overflow: hidden;
+  }
+  .imoji{
+    height:200px;
+    width: 200px;
+    background-color: rgb(229, 224, 224);
+    position: absolute;
+    bottom: 45px;
+    left: 0;
+    z-index:99;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    gap: 0;
+  
+    padding: 5px;
+    margin: 5px;
+  }
+  .imojiP{
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    font-size: 20px;
+    gap: 5px;
+  }
+  .chatSender{
+    margin-right: 25px;
+    display: flex;
+    flex-direction: column;
+   align-items: flex-end;
+   
+   
+  }
+  
+  .chatSenderPartH1{
+    top: 0;
+    font-size: 10px;
+    margin-bottom: 0;
+    margin-top: 0px;
+    margin-right: 80px;
+    
+  } 
+  .messageWrapper{
+    display: flex;
+    flex-direction: row;
+  }
+  .chatSender div{
+    display: flex;
+    flex-direction: column;
+   max-width: 400px;
+   word-wrap: break-word;
+    padding: 5px;
+    border-radius: 6px;
+    margin-top: 0px;
+  }
+  .chatSenderPart div{
+    background-color: #C9F4AA;
+    margin-top: 0;
+  }
+  .chatSenderPart{
+    max-width: 300px;
+    word-wrap: break-word;
+  }
+  
+  .chatReciever {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 25px;
+    margin-top: 2px;
+  }
+  .chatReciever h1,p{
+    font-size: 10px;
+    margin: 0;
+  }
+  .chatReciever h1{
+    margin-left: 10px;
+  }
+  .chatReciever h1{
+    font-size: 10px;
+  }
+  .chatReciever .messageWrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff; 
+    padding: 10px; 
+    border-radius: 6px;
+    padding: 7px;
+    margin-top: 0;
+    max-width: 400px;
+    word-wrap: break-word;
+  }
+  .p1{
+    max-width: 200px;
+    word-wrap: break-word;
+    margin-bottom: 5px;
+  }
+.inputBottomdiv{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    background-color: #eae6df;
+  }
+  .inputBottomdiv input{
+    flex: 1;
+    border-radius: 10px;
+    margin: 5px 10px ;
+  }
+  .cursor:hover{
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Change the shadow color and size as desired */
+    cursor: pointer;
+  }
+  .inputFile{
+    display: none;
+  }
+  .recording{
+    position: absolute;
+    width: 99%;
+    height: 40px;
+    bottom: 0px;
+    left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+    background-color: green;
+  }
+  .micTwoOneIcon{
+    margin: 10px;
+    flex-shrink: 2;
+  }
+  .sendIcon{
+    margin-top: 10px;
+    padding-right: 3px;
+  }
+  .sidebarChild{
+    position: absolute;
+    top: 75px;
+    right: 150px;
+    width: 100px;
+    height: 200px;
+   background-color: white;
+    z-index: 52;
+    overflow-x: hidden;
+    
+    text-align: center;
+  }
+  .sidebarChildP{
+    margin: 0;
+   font-size: 10px;
+   
+   cursor: pointer;
+   word-wrap: break-word;
+  }
+  .sidebarChildDiv{cursor: pointer;
+    padding-bottom: 10px;}
+  .sidebarChildDiv:hover{
+    background-color: gray;
+    color: white;
+
+  }
+  .sidebarChildh6{
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word;
+    padding-right: 3px;
+    padding-left: 3px;
+    
+  }
+  .sidebar1Link{
+    font-size: 20px;
+    color: black;
+   
+  }
+  .sidebar1Link:hover{
+    
+  }
+  @media(max-width:750px){
+    inputMessage{
+      flex-shrink: 2;
+    } 
+  }

@@ -1,0 +1,79 @@
+.HeaderLeft{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+  }
+  .headerLeftGmail{
+    height: 400px;
+    width: 200px;
+    position: absolute;
+    top: 30px;
+    right: -150px;
+    background-color: grey;
+    z-index: 6;
+    align-items: center;
+    overflow-x: hidden;
+    color: white;
+  }
+  
+.headerLeftGmailDiv{
+    padding-left: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    padding-bottom: 10px;
+   }
+   .headerLeftGmailDiv:hover{
+     background-color: white;
+     color: black;
+   }
+   .headerLeftGmailDiv-h6 {
+       font-size: 20px;
+     padding: 0;
+     margin: 0;
+   }
+   .headerLeftGmailDiv-p{
+     font-size: 10px;
+     margin-top: 0;
+   }
+   
+@media(max-width:600px){
+    .headerLeftGmail {
+     
+      right: 0px;
+     
+  }
+  
+  }
+  .HeaderLeft2{
+    display: flex;
+    align-items: center;
+  }
+  .header2part{
+    margin-right: 10px;
+    width: 25px;
+    height: 25px;
+  }
+  .slider{
+    height: 400px;
+    width: 200px;
+    position: absolute;
+    top: 30px;
+    right: -150px;
+    background-color: gray;
+    z-index: 51;
+  }
+  .headerLeft-childDiv{
+    position: relative;
+  }
+  .cursor:hover{
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Change the shadow color and size as desired */
+    cursor: pointer;
+  }
+  .chatNamesDivH5P{
+    max-width: 200px;
+  }
+  .chatNamesDivH5{
+    max-width: 200px;
+  }

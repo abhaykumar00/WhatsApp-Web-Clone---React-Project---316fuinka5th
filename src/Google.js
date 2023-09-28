@@ -9,19 +9,26 @@ import { useContext } from "react";
 import { MyContext } from "./App";
 
 const Google = () => {
-  const { setSidebar, sidebar } = useContext(MyContext);
+  const { setSidebar, sidebar, setEmail, setUsername } = useContext(MyContext);
   setSidebar(false);
   const navigate = useNavigate();
   const onLoginClick = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log("RESULT", result.user.displayName);
-        const userName = result.user.displayName;
+        console.log("RESULT", result.user.email, result.user.photoURL);
+        const newuserName = result.user.displayName;
+        // localStorage.setItem("userName", newuserName);
         const userPhotoUrl = result.user.photoURL;
+        // localStorage.setItem("userPhotoUrl", userPhotoUrl);
+        const emailName = result.user.email;
+        // localStorage.setItem("email", emailName);
+        setEmail(emailName);
+        setUsername(newuserName);
         navigate("/home", {
           state: {
-            userName,
+            newuserName,
             userPhotoUrl,
+            emailName,
           },
         });
       })
