@@ -96,7 +96,7 @@ function App() {
           <Route path="/" element={<Google />} />
           <Route path="/home" element={<NewApp />} />
           {nameId.map((nam) => (
-            <Route path={"/home" + nam.id} element={<NewApp />} />
+            <Route path={"/" + nam.id} element={<NewApp />} />
           ))}
         </Routes>
       </MyContext.Provider>

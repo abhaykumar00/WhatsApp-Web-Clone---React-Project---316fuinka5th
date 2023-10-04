@@ -43,12 +43,11 @@ const HeaderLeft = () => {
     navigate("/");
     window.location.reload();
   }
-  console.log("this is fetch email", email, userPhotoUrl, mynewRef.current);
+
   async function fetchGmail() {
     try {
       const gml = await firebaseApiCall({ setAllGmail, mynewRef });
 
-      console.log(gml[0].names, "this is gml");
       const filterdata =
         gml &&
         gml[0] &&
@@ -58,7 +57,6 @@ const HeaderLeft = () => {
       setAllGmail(gml);
 
       if (gml[0].names.filter((value) => value.gmail === email).length === 0) {
-        console.log("this is console", gml[0].names);
         const data = [
           ...gml[0].names,
           { gmail: email, name: userName, src: mynewRef.current },
@@ -116,6 +114,7 @@ const HeaderLeft = () => {
         setSidebar(false);
         setSlider2(false);
         setGroupInfo(false);
+        if (displayMiddleSlider) setDisplayMiddleSlider(false);
       }}
     >
       <Avatar alt="Remy Sharp" src={mynewRef.current} className="header3part" />
@@ -162,7 +161,6 @@ const HeaderLeft = () => {
                         });
 
                         if (filteredDocs.length === 0) {
-                          console.log("this is also ru", mail, email, userName);
                           handleNewGroup({ mail, email, userName, mynewRef });
                         } else
                           toast.error(
@@ -193,7 +191,7 @@ const HeaderLeft = () => {
                   setDisplayForGroup(true);
                 }}
               >
-                new Group
+                Create Group
               </p>
 
               <h6 onClick={handleNavigation} className="sidebar1">

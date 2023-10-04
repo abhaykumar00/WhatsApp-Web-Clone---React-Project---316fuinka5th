@@ -28,10 +28,12 @@ const ChatNames = () => {
     setGroupInfo,
     displayForGroup,
     setDisplayForGroup,
+    setDisplayMiddleSlider,
+    displayMiddleSlider,
   } = useContext(MyContext);
   const [inputValue, setInputValue] = useState("");
   const userPhotoUrl = localStorage.getItem("userPhotoUrl");
-  console.log("thi is email in the chatNames", email);
+
   const links = [
     "https://tse2.mm.bing.net/th?id=OIP.Or-LePbc4e9rx9DmntAqQAHaFj&pid=Api&P=0&h=180",
     "https://pm1.narvii.com/6526/95bc1261f2630386a6ec17460f3725c6022b28ba_hq.jpg",
@@ -45,7 +47,7 @@ const ChatNames = () => {
 
   const handleWindowResize = () => {
     const windowWidth = window.innerWidth;
-    if (windowWidth >= 500) {
+    if (windowWidth >= 400) {
       setStyleWidth(false);
       setDisplayPartTwoFour(false);
       setPart2Active(false);
@@ -69,7 +71,6 @@ const ChatNames = () => {
       setNewSeraching(namesArray);
       setDocuments(namesArray);
       setNameId(namesArray);
-      console.log(namesArray, "this is names Array");
     });
 
     return () => {
@@ -103,10 +104,6 @@ const ChatNames = () => {
 
           setDocuments([...documents, { id: newDocRef.id }]);
 
-          console.log(
-            "New document created in Firestore with ID:",
-            newDocRef.id
-          );
           setDisplayForGroup(false);
           toast.success(inputValue + " group is added successfully");
         } catch (error) {
@@ -143,7 +140,7 @@ const ChatNames = () => {
 
     fetchFirestoreDocuments();
   }, [changeName, lastMessage, nameUpdate]);
-  console.log("this is name id line 137 vhatnames", nameId);
+
   function handleSearching(event) {
     if (event.target.value) {
       const valuee = nameId.filter((name) => {
@@ -172,7 +169,6 @@ const ChatNames = () => {
     }
   }
 
-  console.log(newSearching, "this is new Searching");
   return (
     <>
       <div
@@ -182,6 +178,7 @@ const ChatNames = () => {
           setSlider2(false);
           setSidebar(false);
           setGroupInfo(false);
+          setDisplayMiddleSlider(false);
         }}
       >
         {displayForGroup && (
@@ -190,7 +187,10 @@ const ChatNames = () => {
               <div>
                 <ArrowBackIcon
                   className="chatNameFullSlider-div-arrow"
-                  onClick={() => setDisplayForGroup(false)}
+                  onClick={() => {
+                    setDisplayForGroup(false);
+                    setDisplayMiddleSlider(false);
+                  }}
                 />
                 <h5 className="chatNameFullSlider-div-h5">Add new Group</h5>
               </div>
@@ -213,9 +213,9 @@ const ChatNames = () => {
         )}
         <SearchIcon className="chatNames-searchIcon" />
         <input className="chatNamesInput" onChange={handleSearching} />
-        <h1 className="chatNamesH1" onClick={handleNewName}>
+        {/* <h1 className="chatNamesH1" onClick={handleNewName}>
           Add New Group +
-        </h1>
+        </h1> */}
       </div>
       <div
         onClick={() => {
@@ -233,12 +233,6 @@ const ChatNames = () => {
                 name.visibility &&
                 name.visibility.length > 0 &&
                 name.visibility.filter((value) => {
-                  console.log(
-                    value.email,
-                    "this is email184 chatNames",
-                    email,
-                    email && value.email === email
-                  );
                   return email && value.email === email;
                 }).length > 0 && (
                   <div

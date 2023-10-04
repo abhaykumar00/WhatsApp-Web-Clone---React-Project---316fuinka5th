@@ -85,6 +85,11 @@
     background-color: white;
     z-index: 57;
   }
+  @media(max-width:590px){
+    .displayMiddleSlider{
+      right: 0;
+    }
+  }
   .displayMiddleSlider-p{
     font-size: 20px;
     margin-top: 10px;

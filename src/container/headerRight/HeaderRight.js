@@ -24,10 +24,11 @@ const HeaderRight = () => {
     setSidebarChild,
     setSlider2,
     slider2,
+    setDisplayMiddleSlider,
   } = useContext(MyContext);
 
   const retrievedObject = JSON.parse(localStorage.getItem("myObject"));
-  console.log(retrievedObject, "line 25 in header right");
+
   const windowWidth = window.innerWidth;
   if (windowWidth > 600) {
     setStyleWidth(false);
@@ -47,6 +48,7 @@ const HeaderRight = () => {
       onClick={() => {
         slider2 && setSlider2(false);
         sidebar && setSidebar(false);
+        setDisplayMiddleSlider(false);
       }}
     >
       <div className="HeaderLeft">

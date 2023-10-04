@@ -42,6 +42,7 @@ const ChatMessage = () => {
     groupLogo,
     groupInfo,
     setGroupInfo,
+    setDisplayMiddleSlider,
   } = useContext(MyContext);
 
   //const newRef = useRef(null);
@@ -71,7 +72,6 @@ const ChatMessage = () => {
     const file = event.target.files[0];
     setSelectedFile(file);
     setDisplayFile(true);
-    console.log("this is console of handle fileChange");
   };
   async function uploadDocs() {
     setImogivalue(false);
@@ -83,7 +83,7 @@ const ChatMessage = () => {
         );
         const snapshot = await uploadBytes(imageRef, selectedFile);
         const url = await getDownloadURL(snapshot.ref);
-        console.log(url);
+
         setUrlOfFile(url);
 
         if (fileInputRef.current) {
@@ -98,7 +98,7 @@ const ChatMessage = () => {
   }
   if (urlOfFile !== null) {
     setImogivalue(false);
-    console.log("this is url of  field");
+
     handleClick();
   }
   function handleChange(event) {
@@ -111,7 +111,6 @@ const ChatMessage = () => {
 
   async function handleClick() {
     setImogivalue(false);
-    console.log("this is urlof file", await urlOfFile);
 
     if ((id || (await urlOfFile)) && !displayFile) {
       if (inputvalue || (await urlOfFile)) {
@@ -120,7 +119,7 @@ const ChatMessage = () => {
         const b = a.indexOf("GMT");
         const c = a.substring(0, b + 3);
         time = c;
-        console.log(time);
+
         setLastSeen(c);
         setInputValue("");
         setLastMessage(inputvalue);
@@ -139,7 +138,6 @@ const ChatMessage = () => {
 
         const setValueInFirestore = async () => {
           if (localStorage.getItem("type") === "all") {
-            console.log(adminName, "thi is line 133 admin name", adminName);
             try {
               await setDoc(doc(firestore, "names", id), {
                 message: [
@@ -166,7 +164,7 @@ const ChatMessage = () => {
             }
           } else if (localStorage.getItem("type") === "personal") {
             const newValue = JSON.parse(localStorage.getItem("gmailNameObj"));
-            console.log("line number 153 is run", newValue);
+
             try {
               await setDoc(doc(firestore, "names", id), {
                 message: [
@@ -251,7 +249,6 @@ const ChatMessage = () => {
 
   const handleTypeOfFile = useCallback((type) => {
     setFileType(`${type}`);
-    console.log(`"${type}"`, "this is type asdjkfh");
   });
   useEffect(() => {
     firestore
@@ -285,11 +282,7 @@ const ChatMessage = () => {
         if (doc.exists) {
           const data = doc.data();
           setVisibil(data.visibility);
-          console.log(
-            "this is data.visibility line 277",
-            data.visibility,
-            data.adminName
-          );
+
           const value = data.message;
           setAdminName(data.adminName);
           setfetchVAlue(() => [...value]);
@@ -314,13 +307,13 @@ const ChatMessage = () => {
   function openFileSelection() {
     fileInputRef.current.click();
   }
-  console.log(adminName, email, "thi is admin name line 316");
   return (
     <div
       className="chatLive"
       onClick={() => {
         if (slider2) setSlider2(false);
         setNameChat(false);
+        setDisplayMiddleSlider(false);
       }}
     >
       {slider2 && (
@@ -345,9 +338,9 @@ const ChatMessage = () => {
       )}
       {sidebar && (
         <div className="sidebar">
-          <Link to="/" className="sidebarLink">
+          {/* <Link to="/" className="sidebarLink">
             <h6 className="sidebar1">Signout</h6>
-          </Link>
+          </Link> */}
           {adminName === email && (
             <Link to="/home" className="sidebarLinkAnother">
               <p
@@ -368,21 +361,20 @@ const ChatMessage = () => {
               </p>
             </Link>
           )}
-          {adminName === email && (
-            <p
-              onClick={() => {
-                setSlider2(!slider2);
-                console.log("slider", slider2);
-              }}
-              className="sidebar1"
-            >
-              add member
-            </p>
-          )}
+          {/* {adminName === email && ( */}
+
+          {/* / /<p */}
+          {/* //   onClick={() => { */}
+          {/* //     setSlider2(!slider2);
+            //   }}
+            //   className="sidebar1"
+            // >
+            //   add member
+            // </p> */}
+          {/* // )} */}
           {id && (
             <p
               onClick={() => {
-                console.log("slider", slider2);
                 setGroupInfo(true);
               }}
               className="sidebar1"
@@ -586,7 +578,6 @@ const ChatMessage = () => {
           className="inputMessage"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              console.log("this is input field");
               setImogivalue(false);
               handleClick();
             }

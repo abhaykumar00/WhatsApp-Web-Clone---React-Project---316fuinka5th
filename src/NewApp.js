@@ -8,8 +8,12 @@ import ChatMessage from "./container/chatMessage/ChatMessage";
 import { MyContext } from "./App";
 
 function NewApp() {
-  const { stylesWidth, displaypartTwoFour, setNameChat } =
-    useContext(MyContext);
+  const {
+    stylesWidth,
+    displaypartTwoFour,
+    setNameChat,
+    setDisplayMiddleSlider,
+  } = useContext(MyContext);
 
   return (
     <div className="container">
@@ -33,6 +37,7 @@ function NewApp() {
         style={stylesWidth ? { display: "none" } : {}}
         onClick={() => {
           setNameChat(false);
+          setDisplayMiddleSlider(false);
         }}
       >
         <ChatNames />

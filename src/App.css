@@ -13,6 +13,7 @@
 
 .part1 ,.part2{
   background-color: #f0f2f5;
+ 
 }
 
 /* Headerleft css */
@@ -45,6 +46,7 @@
 }
 .part2,.part4{
   flex-shrink: 3;
+
 }
 }
 @media (min-width: 600px) and (max-width: 750px) {
