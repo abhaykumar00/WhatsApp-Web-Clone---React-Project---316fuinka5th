@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import "./headerLeft.css";
+import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
 import CommentSharpIcon from "@mui/icons-material/CommentSharp";
@@ -9,6 +10,7 @@ import firebaseApiCall from "../../Functions/FirebaseApiCall";
 import handleNewGroup from "../../Functions/HandleNewGroup";
 import setNewGmailInFirstore from "../../Functions/SetNewGmailInFirstore";
 import firestore from "../../firebase";
+import { useNavigate } from "react-router-dom";
 const HeaderLeft = () => {
   const [allGmail, setAllGmail] = useState([]);
   const mynewRef = useRef("P");
@@ -26,12 +28,20 @@ const HeaderLeft = () => {
     setSidebar,
     sidebar,
     setGroupInfo,
+    displayForGroup,
+    setDisplayForGroup,
+    displayMiddleSlider,
+    setDisplayMiddleSlider,
   } = useContext(MyContext);
-
+  const navigate = useNavigate();
   const [docs, setDocuments] = useState([]);
 
   if (userPhotoUrl.indexOf("http") !== -1) {
     mynewRef.current = userPhotoUrl;
+  }
+  function handleNavigation() {
+    navigate("/");
+    window.location.reload();
   }
   console.log("this is fetch email", email, userPhotoUrl, mynewRef.current);
   async function fetchGmail() {
@@ -169,8 +179,28 @@ const HeaderLeft = () => {
             </div>
           )}
         </div>
-        <div className="headerLeft-childDiv">
+        <div
+          className="headerLeft-childDiv"
+          onClick={() => setDisplayMiddleSlider(!displayMiddleSlider)}
+        >
           <MoreVertSharpIcon className="header2part cursor" />
+          {displayMiddleSlider && (
+            <div className="displayMiddleSlider">
+              <p
+                className="displayMiddleSlider-p"
+                onClick={() => {
+                  setDisplayMiddleSlider(false);
+                  setDisplayForGroup(true);
+                }}
+              >
+                new Group
+              </p>
+
+              <h6 onClick={handleNavigation} className="sidebar1">
+                Signout
+              </h6>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -36,6 +36,8 @@ function App() {
   const [slider2, setSlider2] = useState(false);
   const [nameChat, setNameChat] = useState(false);
   const [groupInfo, setGroupInfo] = useState(false);
+  const [displayForGroup, setDisplayForGroup] = useState(false);
+  const [displayMiddleSlider, setDisplayMiddleSlider] = useState(false);
   if (email === "") setEmail(emailName);
   return (
     <>
@@ -84,13 +86,17 @@ function App() {
           setGlobalAllGmail,
           nameChat,
           setNameChat,
+          displayForGroup,
+          setDisplayForGroup,
+          displayMiddleSlider,
+          setDisplayMiddleSlider,
         }}
       >
         <Routes>
           <Route path="/" element={<Google />} />
           <Route path="/home" element={<NewApp />} />
           {nameId.map((nam) => (
-            <Route path={"/" + nam.id} element={<NewApp />} />
+            <Route path={"/home" + nam.id} element={<NewApp />} />
           ))}
         </Routes>
       </MyContext.Provider>

@@ -24,6 +24,7 @@ const Google = () => {
         // localStorage.setItem("email", emailName);
         setEmail(emailName);
         setUsername(newuserName);
+
         navigate("/home", {
           state: {
             newuserName,

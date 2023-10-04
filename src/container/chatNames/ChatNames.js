@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import "./chatNames.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
@@ -26,8 +26,10 @@ const ChatNames = () => {
     setSlider2,
     setSidebar,
     setGroupInfo,
+    displayForGroup,
+    setDisplayForGroup,
   } = useContext(MyContext);
-
+  const [inputValue, setInputValue] = useState("");
   const userPhotoUrl = localStorage.getItem("userPhotoUrl");
   console.log("thi is email in the chatNames", email);
   const links = [
@@ -84,14 +86,14 @@ const ChatNames = () => {
   }, []);
   // only use when we add new person
   function handleNewName() {
-    const a = window.prompt("Please enter Group Name", "");
-    if (a != null) {
+    // const a = window.prompt("Please enter Group Name", "");
+    if (inputValue != null) {
       const createNewDocument = async () => {
         try {
           const collectionRef = await firestore.collection("names");
           const newDocRef = await collectionRef.add({
             message: [],
-            name: a,
+            name: inputValue,
             src: links[nameId.length % 3],
             type: "all",
             adminName: email,
@@ -105,7 +107,8 @@ const ChatNames = () => {
             "New document created in Firestore with ID:",
             newDocRef.id
           );
-          toast.success(a + " group is added successfully");
+          setDisplayForGroup(false);
+          toast.success(inputValue + " group is added successfully");
         } catch (error) {
           toast.error("Server Error in Firestore");
           console.error("Error creating new document in Firestore:", error);
@@ -181,8 +184,34 @@ const ChatNames = () => {
           setGroupInfo(false);
         }}
       >
+        {displayForGroup && (
+          <div className="chatNameFullSlider">
+            <div className="chatNameFullSlider-div">
+              <div>
+                <ArrowBackIcon
+                  className="chatNameFullSlider-div-arrow"
+                  onClick={() => setDisplayForGroup(false)}
+                />
+                <h5 className="chatNameFullSlider-div-h5">Add new Group</h5>
+              </div>
+            </div>
+            <input
+              placeholder="Enter A group Name"
+              className="chatNameFullSlider-input"
+              type="text"
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            {inputValue && (
+              <button
+                className="chatNameFullSlider-button"
+                onClick={() => handleNewName()}
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        )}
         <SearchIcon className="chatNames-searchIcon" />
-
         <input className="chatNamesInput" onChange={handleSearching} />
         <h1 className="chatNamesH1" onClick={handleNewName}>
           Add New Group +

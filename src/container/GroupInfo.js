@@ -8,6 +8,7 @@ function GroupInfo({
   id,
   setGroupInfo,
   email,
+  groupLogo,
 }) {
   console.log(
     "this is globalAllGmail",
@@ -57,6 +58,9 @@ function GroupInfo({
         className="groupInfo-div-img"
         src="https://th.bing.com/th/id/R.870b2e354b200b7f572132ffcdafb475?rik=ltt%2fuBkshly3jQ&riu=http%3a%2f%2f4.bp.blogspot.com%2f-_hPtN6OSUlI%2fUofVgda6szI%2fAAAAAAAAGSM%2fhx7TmrmEc98%2fs1600%2f1-01.jpg&ehk=3gVplgejqRblebejYhW4B1PXn6E63wth5zHAet8G0Z4%3d&risl=&pid=ImgRaw&r=0"
       />
+      <div className="groupInfo-div-childdiv">
+        <img src={groupLogo} className="groupInfo-div-imgGroup" />
+      </div>
       <div className="groupInfo-div-div">
         <h3>Group members:</h3>
         {visible.map((user, index) => (

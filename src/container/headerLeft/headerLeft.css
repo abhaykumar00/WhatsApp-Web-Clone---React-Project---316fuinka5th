@@ -77,3 +77,25 @@
   .chatNamesDivH5{
     max-width: 200px;
   }
+  .displayMiddleSlider{
+    position: absolute;
+    height: 300px;
+    width: 150px;
+    font-size: 40px;
+    background-color: white;
+    z-index: 57;
+  }
+  .displayMiddleSlider-p{
+    font-size: 20px;
+    margin-top: 10px;
+    padding: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+  }
+  .displayMiddleSlider-Link{
+    text-decoration: none;
+  }
+  .displayMiddleSlider-p:hover{
+    background-color: grey;
+  }

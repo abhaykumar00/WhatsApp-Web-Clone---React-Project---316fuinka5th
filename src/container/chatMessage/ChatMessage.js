@@ -39,6 +39,7 @@ const ChatMessage = () => {
     slider2,
     setSlider2,
     setGroupLogo,
+    groupLogo,
     groupInfo,
     setGroupInfo,
   } = useContext(MyContext);
@@ -378,7 +379,7 @@ const ChatMessage = () => {
               add member
             </p>
           )}
-          {id && adminName === email && (
+          {id && (
             <p
               onClick={() => {
                 console.log("slider", slider2);
@@ -402,7 +403,7 @@ const ChatMessage = () => {
           }}
         />
       )}
-      {groupInfo && adminName === email && (
+      {groupInfo && (
         <div className="groupInfo">
           <GroupInfo
             adminName={adminName}
@@ -411,6 +412,7 @@ const ChatMessage = () => {
             id={id}
             setGroupInfo={setGroupInfo}
             email={email}
+            groupLogo={groupLogo}
           />
         </div>
       )}
