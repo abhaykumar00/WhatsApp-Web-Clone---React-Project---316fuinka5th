@@ -4,8 +4,10 @@ import "./chatNames.css";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState, useEffect } from "react";
 import firestore from "../../firebase";
+import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import { MyContext } from "../../App";
+import { ToastContainer, toast } from "react-toastify";
 import setVisibilityForGroup from "../../Functions/Visibility";
 
 const ChatNames = () => {
@@ -21,6 +23,9 @@ const ChatNames = () => {
     setGroupLogo,
     email,
     userName,
+    setSlider2,
+    setSidebar,
+    setGroupInfo,
   } = useContext(MyContext);
 
   const userPhotoUrl = localStorage.getItem("userPhotoUrl");
@@ -100,7 +105,9 @@ const ChatNames = () => {
             "New document created in Firestore with ID:",
             newDocRef.id
           );
+          toast.success(a + " group is added successfully");
         } catch (error) {
+          toast.error("Server Error in Firestore");
           console.error("Error creating new document in Firestore:", error);
         }
       };
@@ -169,7 +176,9 @@ const ChatNames = () => {
         className="chatNames"
         onClick={() => {
           setNameChat(false);
-          console.log("hello");
+          setSlider2(false);
+          setSidebar(false);
+          setGroupInfo(false);
         }}
       >
         <SearchIcon className="chatNames-searchIcon" />
@@ -179,7 +188,15 @@ const ChatNames = () => {
           Add New Group +
         </h1>
       </div>
-      <div className="chatNames2">
+      <div
+        onClick={() => {
+          setNameChat(false);
+          setSlider2(false);
+          setSidebar(false);
+          setGroupInfo(false);
+        }}
+        className="chatNames2"
+      >
         <div className="chatNames4">
           {newSearching.map((name) => (
             <Link className="chatNames4-Link" to={"/" + name.id} key={name.id}>

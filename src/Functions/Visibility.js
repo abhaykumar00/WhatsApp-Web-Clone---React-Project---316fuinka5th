@@ -1,4 +1,5 @@
 import firestore from "../firebase";
+import { toast } from "react-toastify";
 function setVisibilityForGroup({ email, id }) {
   const updateFirestoreDocument = async () => {
     try {
@@ -13,14 +14,19 @@ function setVisibilityForGroup({ email, id }) {
         // Now you can access the current value of 'visibility'
         const currentVisibility = data.visibility;
         console.log("Current visibility:", currentVisibility);
-        if (currentVisibility.filter((val) => val.email === email).length == 0)
+        if (
+          currentVisibility.filter((val) => val.email === email).length == 0
+        ) {
           await firestoreRef.update({
             visibility: [...currentVisibility, { email }],
           });
+          toast.success(email + "added successfully");
+        } else toast.error(email + " this email already added");
 
         console.log("Value updated successfully");
       } else {
         console.log("Document does not exist");
+        toast.error("FireStore Error");
       }
       // Update the Firestore document with the new value
 

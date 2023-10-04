@@ -1,5 +1,5 @@
 import firestore from "../firebase"; // Import the Firestore instance if not already imported
-
+import { toast } from "react-toastify";
 function handleNewGroup({ mail, email, userName, mynewRef }) {
   const createNewDocument = async () => {
     try {
@@ -14,8 +14,10 @@ function handleNewGroup({ mail, email, userName, mynewRef }) {
         gmail2: mail.gmail,
         type: "personal",
       });
+      toast.success(mail.name + " added successfully");
       console.log("this is successful", newDocRef.id);
     } catch (error) {
+      toast.error("Firestore facing server issue");
       console.error("Error creating new document in Firestore:", error);
     }
   };

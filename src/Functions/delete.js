@@ -1,10 +1,11 @@
 import firestore from "../firebase";
-
+import { toast } from "react-toastify";
 function deleteFirestoreDocumentById({
   id,
   setHeaderName,
   setLastSeen,
   setfetchVAlue,
+  setGroupLogo,
 }) {
   console.log(id, "this is id for delete");
   const deleteDocument = async () => {
@@ -17,8 +18,11 @@ function deleteFirestoreDocumentById({
       setHeaderName("");
       setLastSeen("");
       setfetchVAlue([]);
+      setGroupLogo("");
+      toast.success("Group is deleted successfully");
       console.log("Firestore document deleted successfully.");
     } catch (error) {
+      toast.error("Firestore facing some problem");
       console.error("Error deleting Firestore document:", error);
     }
   };

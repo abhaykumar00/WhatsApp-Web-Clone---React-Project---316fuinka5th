@@ -4,7 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import Google from "./Google";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
-
+import { ToastContainer } from "react-toastify";
 export const MyContext = createContext();
 
 function App() {
@@ -35,11 +35,14 @@ function App() {
   const [globalAllGmail, setGlobalAllGmail] = useState([]);
   const [slider2, setSlider2] = useState(false);
   const [nameChat, setNameChat] = useState(false);
+  const [groupInfo, setGroupInfo] = useState(false);
   if (email === "") setEmail(emailName);
   return (
     <>
       <MyContext.Provider
         value={{
+          groupInfo,
+          setGroupInfo,
           slider2,
           setSlider2,
           sidebarchild,
@@ -91,6 +94,7 @@ function App() {
           ))}
         </Routes>
       </MyContext.Provider>
+      <ToastContainer />
     </>
   );
 }

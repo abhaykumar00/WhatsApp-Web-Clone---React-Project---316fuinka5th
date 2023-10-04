@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-
+import { toast } from "react-toastify";
 import "./headerLeft.css";
 import Avatar from "@mui/material/Avatar";
 import MoreVertSharpIcon from "@mui/icons-material/MoreVertSharp";
@@ -12,7 +12,7 @@ import firestore from "../../firebase";
 const HeaderLeft = () => {
   const [allGmail, setAllGmail] = useState([]);
   const mynewRef = useRef("P");
-  const [slider, setSlider] = useState(false);
+
   const {
     globalAllGmail,
     setGlobalAllGmail,
@@ -21,6 +21,11 @@ const HeaderLeft = () => {
     userName,
     nameChat,
     setNameChat,
+    slider2,
+    setSlider2,
+    setSidebar,
+    sidebar,
+    setGroupInfo,
   } = useContext(MyContext);
 
   const [docs, setDocuments] = useState([]);
@@ -98,6 +103,9 @@ const HeaderLeft = () => {
       className="HeaderLeft"
       onClick={() => {
         if (nameChat) setNameChat(!nameChat);
+        setSidebar(false);
+        setSlider2(false);
+        setGroupInfo(false);
       }}
     >
       <Avatar alt="Remy Sharp" src={mynewRef.current} className="header3part" />
@@ -146,7 +154,10 @@ const HeaderLeft = () => {
                         if (filteredDocs.length === 0) {
                           console.log("this is also ru", mail, email, userName);
                           handleNewGroup({ mail, email, userName, mynewRef });
-                        }
+                        } else
+                          toast.error(
+                            mail.name + "  is already availble in chatSection"
+                          );
 
                         setNameChat(false);
                       }}
@@ -160,7 +171,6 @@ const HeaderLeft = () => {
         </div>
         <div className="headerLeft-childDiv">
           <MoreVertSharpIcon className="header2part cursor" />
-          {slider && <div className="slider"></div>}
         </div>
       </div>
     </div>

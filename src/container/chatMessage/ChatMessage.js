@@ -1,5 +1,5 @@
 import React, { useContext, useRef } from "react";
-
+import { ToastContainer, toast } from "react-toastify";
 import "./chatMessage.css";
 import { v4 } from "uuid";
 import { useCallback } from "react";
@@ -17,7 +17,7 @@ import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import { storage } from ".././firebase";
 import firebaseApiCall from "../../Functions/FirebaseApiCall";
 import deleteFirestoreDocumentById from "../../Functions/delete";
-
+import GroupInfo from "../GroupInfo";
 import setVisibilityForGroup from "../../Functions/Visibility";
 const ChatMessage = () => {
   const imagesListRef = ref(storage, "images/");
@@ -38,6 +38,9 @@ const ChatMessage = () => {
     globalAllGmail,
     slider2,
     setSlider2,
+    setGroupLogo,
+    groupInfo,
+    setGroupInfo,
   } = useContext(MyContext);
 
   //const newRef = useRef(null);
@@ -70,6 +73,7 @@ const ChatMessage = () => {
     console.log("this is console of handle fileChange");
   };
   async function uploadDocs() {
+    setImogivalue(false);
     try {
       if (selectedFile) {
         const imageRef = await ref(
@@ -92,6 +96,7 @@ const ChatMessage = () => {
     setDisplayFile(false);
   }
   if (urlOfFile !== null) {
+    setImogivalue(false);
     console.log("this is url of  field");
     handleClick();
   }
@@ -104,6 +109,7 @@ const ChatMessage = () => {
   }
 
   async function handleClick() {
+    setImogivalue(false);
     console.log("this is urlof file", await urlOfFile);
 
     if ((id || (await urlOfFile)) && !displayFile) {
@@ -307,7 +313,7 @@ const ChatMessage = () => {
   function openFileSelection() {
     fileInputRef.current.click();
   }
-
+  console.log(adminName, email, "thi is admin name line 316");
   return (
     <div
       className="chatLive"
@@ -353,6 +359,7 @@ const ChatMessage = () => {
                     setHeaderName,
                     setLastSeen,
                     setfetchVAlue,
+                    setGroupLogo,
                   });
                 }}
               >
@@ -371,6 +378,17 @@ const ChatMessage = () => {
               add member
             </p>
           )}
+          {id && adminName === email && (
+            <p
+              onClick={() => {
+                console.log("slider", slider2);
+                setGroupInfo(true);
+              }}
+              className="sidebar1"
+            >
+              Group info
+            </p>
+          )}
         </div>
       )}
       {displayFile && (
@@ -380,11 +398,24 @@ const ChatMessage = () => {
           onClick={() => {
             setDisplayFile(false);
             setSelectedFile();
+            setSidebar(false);
           }}
         />
       )}
+      {groupInfo && adminName === email && (
+        <div className="groupInfo">
+          <GroupInfo
+            adminName={adminName}
+            globalAllGmail={globalAllGmail}
+            visible={visible}
+            id={id}
+            setGroupInfo={setGroupInfo}
+            email={email}
+          />
+        </div>
+      )}
       {displayFile && (
-        <div className="messageLive hider">
+        <div className="messageLive hider" onClick={() => setSidebar(false)}>
           <div className="messageLiveDiv">
             <h5 className="messageLiveH5">{selectedFile.name}</h5>
           </div>
@@ -396,7 +427,7 @@ const ChatMessage = () => {
         </div>
       )}
       {!displayFile && (
-        <div className="messageLive">
+        <div className="messageLive" onClick={() => setSidebar(false)}>
           {imogivalue && (
             <div className="imoji">
               {emojiData.map((emoji, index) => (
@@ -554,6 +585,7 @@ const ChatMessage = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               console.log("this is input field");
+              setImogivalue(false);
               handleClick();
             }
           }}

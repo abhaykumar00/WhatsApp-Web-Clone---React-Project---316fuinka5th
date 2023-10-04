@@ -1,4 +1,5 @@
 import firestore from "../firebase";
+import { ToastContainer, toast } from "react-toastify";
 function setNewGmailInFirstore({ data }) {
   const updateFirestoreDocument = async () => {
     try {

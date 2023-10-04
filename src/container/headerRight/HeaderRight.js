@@ -22,6 +22,8 @@ const HeaderRight = () => {
     sidebar,
     sidebarchild,
     setSidebarChild,
+    setSlider2,
+    slider2,
   } = useContext(MyContext);
 
   const retrievedObject = JSON.parse(localStorage.getItem("myObject"));
@@ -40,7 +42,13 @@ const HeaderRight = () => {
   };
 
   return (
-    <div className="HeaderRight">
+    <div
+      className="HeaderRight"
+      onClick={() => {
+        slider2 && setSlider2(false);
+        sidebar && setSidebar(false);
+      }}
+    >
       <div className="HeaderLeft">
         <ArrowBackIcon
           style={
