@@ -11,6 +11,7 @@ import handleNewGroup from "../../Functions/HandleNewGroup";
 import setNewGmailInFirstore from "../../Functions/SetNewGmailInFirstore";
 import firestore from "../../firebase";
 import { useNavigate } from "react-router-dom";
+import ChatIcon from "@mui/icons-material/Chat";
 const HeaderLeft = () => {
   const [allGmail, setAllGmail] = useState([]);
   const mynewRef = useRef("P");
@@ -32,6 +33,7 @@ const HeaderLeft = () => {
     setDisplayForGroup,
     displayMiddleSlider,
     setDisplayMiddleSlider,
+    setImogivalue,
   } = useContext(MyContext);
   const navigate = useNavigate();
   const [docs, setDocuments] = useState([]);
@@ -114,6 +116,7 @@ const HeaderLeft = () => {
         setSidebar(false);
         setSlider2(false);
         setGroupInfo(false);
+        setImogivalue(false);
         if (displayMiddleSlider) setDisplayMiddleSlider(false);
       }}
     >
@@ -128,7 +131,7 @@ const HeaderLeft = () => {
           //   />
         }
         <div className="headerLeft-childDiv">
-          <CommentSharpIcon
+          <ChatIcon
             className="header2part cursor commentSharp"
             onClick={() => {
               setNameChat(!nameChat);

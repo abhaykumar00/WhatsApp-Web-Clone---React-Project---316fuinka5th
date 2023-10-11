@@ -29,7 +29,7 @@ const ChatNames = () => {
     displayForGroup,
     setDisplayForGroup,
     setDisplayMiddleSlider,
-    displayMiddleSlider,
+    setImogivalue,
   } = useContext(MyContext);
   const [inputValue, setInputValue] = useState("");
   const userPhotoUrl = localStorage.getItem("userPhotoUrl");
@@ -134,6 +134,7 @@ const ChatNames = () => {
         setNameId([...fetchedDocuments]);
         setNewSeraching([...fetchedDocuments]);
       } catch (error) {
+        toast.error("some firestore problem");
         console.error("Error fetching documents from Firestore: ", error);
       }
     };
@@ -179,6 +180,7 @@ const ChatNames = () => {
           setSidebar(false);
           setGroupInfo(false);
           setDisplayMiddleSlider(false);
+          setImogivalue(false);
         }}
       >
         {displayForGroup && (
@@ -223,6 +225,7 @@ const ChatNames = () => {
           setSlider2(false);
           setSidebar(false);
           setGroupInfo(false);
+          setImogivalue(false);
         }}
         className="chatNames2"
       >

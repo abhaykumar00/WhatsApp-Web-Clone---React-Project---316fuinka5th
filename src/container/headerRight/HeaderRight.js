@@ -25,6 +25,7 @@ const HeaderRight = () => {
     setSlider2,
     slider2,
     setDisplayMiddleSlider,
+    setImogivalue,
   } = useContext(MyContext);
 
   const retrievedObject = JSON.parse(localStorage.getItem("myObject"));
@@ -49,6 +50,7 @@ const HeaderRight = () => {
         slider2 && setSlider2(false);
         sidebar && setSidebar(false);
         setDisplayMiddleSlider(false);
+        setImogivalue(false);
       }}
     >
       <div className="HeaderLeft">

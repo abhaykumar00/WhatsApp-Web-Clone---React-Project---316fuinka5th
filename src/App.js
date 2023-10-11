@@ -38,6 +38,7 @@ function App() {
   const [groupInfo, setGroupInfo] = useState(false);
   const [displayForGroup, setDisplayForGroup] = useState(false);
   const [displayMiddleSlider, setDisplayMiddleSlider] = useState(false);
+  const [imogivalue, setImogivalue] = useState(false);
   if (email === "") setEmail(emailName);
   return (
     <>
@@ -90,6 +91,8 @@ function App() {
           setDisplayForGroup,
           displayMiddleSlider,
           setDisplayMiddleSlider,
+          imogivalue,
+          setImogivalue,
         }}
       >
         <Routes>

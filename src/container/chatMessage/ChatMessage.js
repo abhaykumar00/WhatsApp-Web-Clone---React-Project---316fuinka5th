@@ -43,6 +43,8 @@ const ChatMessage = () => {
     groupInfo,
     setGroupInfo,
     setDisplayMiddleSlider,
+    imogivalue,
+    setImogivalue,
   } = useContext(MyContext);
 
   //const newRef = useRef(null);
@@ -56,7 +58,7 @@ const ChatMessage = () => {
   const [name, setName] = useState("");
   const [imgSrc, setImgSrc] = useState();
   const [check, setCheck] = useState(false);
-  const [imogivalue, setImogivalue] = useState(false);
+
   const [fileType, setFileType] = useState("file");
   const [displayFile, setDisplayFile] = useState(false);
   const [isStop, setIsStop] = useState(false);
@@ -91,6 +93,7 @@ const ChatMessage = () => {
         }
       }
     } catch (error) {
+      toast.error("firebase server not work");
       console.error("Error uploading or retrieving the file:", error);
       // Handle the error here, e.g., show an error message to the user
     }
@@ -160,6 +163,7 @@ const ChatMessage = () => {
 
               console.log("Value set in Firestore abhay");
             } catch (error) {
+              toast.error("firestore problem");
               console.error("Error setting value in Firestore:", error);
             }
           } else if (localStorage.getItem("type") === "personal") {
@@ -188,6 +192,7 @@ const ChatMessage = () => {
 
               console.log("Value set in Firestore abhay");
             } catch (error) {
+              toast.error("Error setting value in Firestore");
               console.error("Error setting value in Firestore:", error);
             }
           }
@@ -317,7 +322,7 @@ const ChatMessage = () => {
       }}
     >
       {slider2 && (
-        <div className="sidebarChild">
+        <div className="sidebarChild" onClick={() => setImogivalue(false)}>
           {globalAllGmail.map((val) => (
             <div
               className="sidebarChildDiv"
@@ -337,7 +342,7 @@ const ChatMessage = () => {
         </div>
       )}
       {sidebar && (
-        <div className="sidebar">
+        <div className="sidebar" onClick={() => setImogivalue(false)}>
           {/* <Link to="/" className="sidebarLink">
             <h6 className="sidebar1">Signout</h6>
           </Link> */}
@@ -372,7 +377,7 @@ const ChatMessage = () => {
             //   add member
             // </p> */}
           {/* // )} */}
-          {id && (
+          {id && adminName && (
             <p
               onClick={() => {
                 setGroupInfo(true);
@@ -392,11 +397,12 @@ const ChatMessage = () => {
             setDisplayFile(false);
             setSelectedFile();
             setSidebar(false);
+            setImogivalue(false);
           }}
         />
       )}
       {groupInfo && (
-        <div className="groupInfo">
+        <div className="groupInfo" onClick={() => setImogivalue(false)}>
           <GroupInfo
             adminName={adminName}
             globalAllGmail={globalAllGmail}
@@ -408,8 +414,30 @@ const ChatMessage = () => {
           />
         </div>
       )}
+      {imogivalue && (
+        <div className="imoji">
+          {emojiData.map((emoji, index) => (
+            <p
+              className="imojiP"
+              onClick={() => {
+                setInputValue(inputvalue + emoji.symbol);
+                inputRef.current.focus();
+              }}
+              key={index}
+            >
+              {emoji.symbol}
+            </p>
+          ))}
+        </div>
+      )}
       {displayFile && (
-        <div className="messageLive hider" onClick={() => setSidebar(false)}>
+        <div
+          className="messageLive hider"
+          onClick={() => {
+            setSidebar(false);
+            setImogivalue(false);
+          }}
+        >
           <div className="messageLiveDiv">
             <h5 className="messageLiveH5">{selectedFile.name}</h5>
           </div>
@@ -421,25 +449,16 @@ const ChatMessage = () => {
         </div>
       )}
       {!displayFile && (
-        <div className="messageLive" onClick={() => setSidebar(false)}>
-          {imogivalue && (
-            <div className="imoji">
-              {emojiData.map((emoji, index) => (
-                <p
-                  className="imojiP"
-                  onClick={() => {
-                    setInputValue(inputvalue + emoji.symbol);
-                    inputRef.current.focus();
-                  }}
-                  key={index}
-                >
-                  {emoji.symbol}
-                </p>
-              ))}
-            </div>
-          )}
+        <div
+          className="messageLive"
+          onClick={() => {
+            setSidebar(false);
+            setImogivalue(false);
+          }}
+        >
           {fetchValue.map((value) => (
             <div
+              onClick={() => setImogivalue(false)}
               className={
                 value.name === userNameref.current
                   ? "chatSender"
